@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="category"
+            type="com.cuongngo.hotel_booking.response.CategoryModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="8dp">
+
+        <carbon.widget.TextView
+            android:id="@+id/tv_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:carbon_cornerRadius="15dp"
+            android:background="@color/white"
+            app:carbon_stroke="#1AB65C"
+            app:carbon_strokeWidth="2dp"
+            android:text="@{category.name}"
+            android:textColor="#1AB65C"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            android:maxLines="1"
+            android:gravity="center"
+            android:foregroundGravity="center"
+            android:ellipsize="end"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
