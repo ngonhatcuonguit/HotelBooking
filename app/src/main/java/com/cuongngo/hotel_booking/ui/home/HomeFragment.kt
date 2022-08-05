@@ -1,5 +1,6 @@
 package com.cuongngo.hotel_booking.ui.home
 
+import android.content.Intent
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
@@ -8,6 +9,7 @@ import com.cuongngo.hotel_booking.databinding.FragmentHomeBinding
 import com.cuongngo.hotel_booking.response.CategoryModel
 import com.cuongngo.hotel_booking.response.HotelModel
 import com.cuongngo.hotel_booking.ui.categories.CategoryAdapter
+import com.cuongngo.hotel_booking.ui.hoteldetail.HotelDetailActivity
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.SelectedListener, BigHotelAdapter.SelectedListener {
 
@@ -170,7 +172,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
 
 
     override fun onSelectedListener(hotelModel: HotelModel) {
-
+            startActivity(Intent(context, HotelDetailActivity::class.java))
     }
 
 
