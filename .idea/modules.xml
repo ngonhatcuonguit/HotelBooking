@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hotel_booking.iml" filepath="$PROJECT_DIR$/.idea/modules/hotel_booking.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/hotel_booking.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/hotel_booking.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/hotel_booking.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/hotel_booking.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/hotel_booking.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/hotel_booking.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/hotel_booking.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/hotel_booking.app.unitTest.iml" />
+    </modules>
+  </component>
+</project>
