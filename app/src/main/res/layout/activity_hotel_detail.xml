@@ -9,13 +9,17 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scr_nested"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="40dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_poster"
@@ -131,7 +135,7 @@
                     android:id="@+id/iv_bed_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
+                    android:layout_marginEnd="35dp"
                     app:layout_constraintBottom_toBottomOf="@id/iv_bath_room"
                     app:layout_constraintEnd_toStartOf="@id/guideLine1"
                     app:layout_constraintTop_toTopOf="@id/iv_bath_room"
@@ -141,7 +145,7 @@
                     android:id="@+id/iv_bath_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginStart="35dp"
                     android:layout_marginTop="16dp"
                     app:layout_constraintStart_toEndOf="@id/guideLine1"
                     app:layout_constraintTop_toBottomOf="@id/tv_detail_title"
@@ -151,7 +155,7 @@
                     android:id="@+id/iv_hotel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="80dp"
+                    android:layout_marginEnd="70dp"
                     app:layout_constraintBottom_toBottomOf="@id/iv_bed_room"
                     app:layout_constraintEnd_toStartOf="@id/iv_bed_room"
                     app:layout_constraintTop_toTopOf="@id/iv_bed_room"
@@ -161,7 +165,7 @@
                     android:id="@+id/iv_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="80dp"
+                    android:layout_marginStart="70dp"
                     app:layout_constraintBottom_toBottomOf="@id/iv_bath_room"
                     app:layout_constraintStart_toEndOf="@id/iv_bath_room"
                     app:layout_constraintTop_toTopOf="@id/iv_bath_room"
@@ -220,47 +224,332 @@
                     android:id="@+id/tv_description_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20dp"
                     android:layout_marginTop="22dp"
                     android:text="Description"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="@dimen/_20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_hotel"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/tv_hotel" />
 
                 <com.cuongngo.hotel_booking.base.custom_view.ShowMoreTextView
                     android:id="@+id/show_more_text_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt aliqua"
-                    android:textSize="14sp"
-                    android:textColor="#616161"
-                    android:layout_marginTop="4dp"
                     android:layout_marginHorizontal="@dimen/_20dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_description_title"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="4dp"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt aliqua"
+                    android:textColor="#616161"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_description_title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_facilities"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20dp"
+                    android:layout_marginTop="14dp"
+                    android:text="Facilities"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/show_more_text_view" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_swim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_hotel"
+                    app:layout_constraintStart_toStartOf="@id/iv_hotel"
+                    app:layout_constraintTop_toBottomOf="@id/tv_facilities"
+                    app:srcCompat="@drawable/ic_swim" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_swim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Swimming Pool"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_swim"
+                    app:layout_constraintStart_toStartOf="@id/iv_swim"
+                    app:layout_constraintTop_toBottomOf="@id/iv_swim" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_wifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/iv_bed_room"
+                    app:layout_constraintStart_toStartOf="@id/iv_bed_room"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_swim"
+                    app:srcCompat="@drawable/ic_wifi" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_wifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="WiFi"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_wifi"
+                    app:layout_constraintStart_toStartOf="@id/iv_wifi"
+                    app:layout_constraintTop_toBottomOf="@id/iv_wifi" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/iv_bath_room"
+                    app:layout_constraintStart_toStartOf="@id/iv_bath_room"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_swim"
+                    app:srcCompat="@drawable/ic_restaurant_menu" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Restaurant"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_menu"
+                    app:layout_constraintStart_toStartOf="@id/iv_menu"
+                    app:layout_constraintTop_toBottomOf="@id/iv_menu" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_parking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/iv_area"
+                    app:layout_constraintStart_toStartOf="@id/iv_area"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_swim"
+                    app:srcCompat="@drawable/ic_car_parking" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_parking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Parking"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_parking"
+                    app:layout_constraintStart_toStartOf="@id/iv_parking"
+                    app:layout_constraintTop_toBottomOf="@id/iv_parking" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_meeting_room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_swim"
+                    app:layout_constraintStart_toStartOf="@id/iv_swim"
+                    app:layout_constraintTop_toBottomOf="@id/tv_swim"
+                    app:srcCompat="@drawable/ic_meeting_room" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_meeting_room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Meeting Room"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_meeting_room"
+                    app:layout_constraintStart_toStartOf="@id/iv_meeting_room"
+                    app:layout_constraintTop_toBottomOf="@id/iv_meeting_room" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_elevator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/iv_wifi"
+                    app:layout_constraintStart_toStartOf="@id/iv_wifi"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_meeting_room"
+                    app:srcCompat="@drawable/ic_outline_elevator" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_elevator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Elevator"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_elevator"
+                    app:layout_constraintStart_toStartOf="@id/iv_elevator"
+                    app:layout_constraintTop_toBottomOf="@id/iv_elevator" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_gym"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/iv_menu"
+                    app:layout_constraintStart_toStartOf="@id/iv_menu"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_meeting_room"
+                    app:srcCompat="@drawable/ic_gym" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_gym"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Fitness Center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_gym"
+                    app:layout_constraintStart_toStartOf="@id/iv_gym"
+                    app:layout_constraintTop_toBottomOf="@id/iv_gym" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_24h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/iv_parking"
+                    app:layout_constraintStart_toStartOf="@id/iv_parking"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_meeting_room"
+                    app:srcCompat="@drawable/ic_24_hours_line" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_24h"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="24-hours Open"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="@id/iv_24h"
+                    app:layout_constraintStart_toStartOf="@id/iv_24h"
+                    app:layout_constraintTop_toBottomOf="@id/iv_24h" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_review_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Review"
+                    android:textSize="19sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_20dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_meeting_room"
                     />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_score_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:drawableStart="@drawable/ic_star_white"
+                    android:drawableTint="#FED201"
+                    android:text="5.0 (4,345 reviews)"
+                    android:drawablePadding="4dp"
+                    android:textColor="#3D3D3D"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_review_title"
+                    app:layout_constraintStart_toEndOf="@id/tv_review_title"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_review_see_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20dp"
+                    android:text="See All"
+                    android:textColor="#1AB65C"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_review_title" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
                     android:layout_marginStart="@dimen/_20dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_arrow_left"
-                        />
+                        app:srcCompat="@drawable/ic_arrow_left" />
                 </FrameLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <View
+                android:id="@+id/view_space1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="@dimen/_20dp"
+                android:background="#40000000"
+                android:layout_marginTop="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <carbon.widget.Button
+                android:layout_width="0dp"
+                android:layout_height="53dp"
+                app:layout_constraintWidth_percent="0.6"
+                app:carbon_cornerRadius="20dp"
+                android:background="#1AB65C"
+                android:text="Book Now!"
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:layout_marginEnd="@dimen/_20dp"
+                app:layout_constraintTop_toBottomOf="@id/view_space1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="$205"
+                android:textColor="#1AB65C"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toBottomOf="@id/view_space1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/night"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@id/tv_price"
+                app:layout_constraintBottom_toBottomOf="@id/tv_price"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
