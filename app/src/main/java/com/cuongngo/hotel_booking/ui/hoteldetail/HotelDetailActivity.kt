@@ -1,9 +1,11 @@
 package com.cuongngo.hotel_booking.ui.hoteldetail
 
+import android.content.Intent
 import com.cuongngo.hotel_booking.App
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.databinding.ActivityHotelDetailBinding
+import com.cuongngo.hotel_booking.ui.auth.LoginActivity
 
 class HotelDetailActivity : BaseActivity<ActivityHotelDetailBinding>() {
 
@@ -20,6 +22,9 @@ class HotelDetailActivity : BaseActivity<ActivityHotelDetailBinding>() {
             }
             flBack.setOnClickListener {
                 onBackPressed()
+            }
+            btnBookNow.setOnClickListener {
+                startActivity(Intent(this@HotelDetailActivity, LoginActivity::class.java))
             }
         }
     }
