@@ -18,6 +18,9 @@ class HotelDetailActivity : BaseActivity<ActivityHotelDetailBinding>() {
                 addShowLessText("Less")
                 addShowMoreText("Read More")
             }
+            flBack.setOnClickListener {
+                onBackPressed()
+            }
         }
     }
 

@@ -33,6 +33,10 @@
             android:name=".ui.hoteldetail.HotelDetailActivity"
             android:exported="true"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.home.HomeIndexActivity"
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>
