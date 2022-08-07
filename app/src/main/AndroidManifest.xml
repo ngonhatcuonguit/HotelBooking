@@ -42,6 +42,11 @@
             android:name=".ui.auth.LoginActivity"
             android:exported="true"
             tools:ignore="LockedOrientationActivity" />
+
+        <activity
+            android:name=".ui.auth.SignUpActivity"
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>
