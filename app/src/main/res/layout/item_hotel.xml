@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aap="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="hotel"
+            type="com.cuongngo.hotel_booking.response.HotelModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="22dp"
+        android:background="@color/transparent">
+
+        <carbon.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            aap:carbon_cornerRadius="11dp"
+            aap:layout_constraintDimensionRatio="348:120"
+            aap:layout_constraintTop_toTopOf="parent"
+            aap:layout_constraintStart_toStartOf="parent">
+
+            <carbon.widget.ImageView
+                android:id="@+id/iv_poster"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="14dp"
+                android:layout_marginStart="11dp"
+                aap:carbon_cornerRadius="11dp"
+                android:src="@drawable/background_item"
+                aap:layout_constraintDimensionRatio="1:1"
+                aap:layout_constraintStart_toStartOf="parent"
+                aap:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_hotel_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{hotel.name}"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginStart="6dp"
+                aap:layout_constraintTop_toTopOf="@id/iv_poster"
+                aap:layout_constraintStart_toEndOf="@id/iv_poster"
+                aap:layout_constraintEnd_toStartOf="@id/tv_price" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                displayPrice="@{hotel.price}"
+                android:textSize="18sp"
+                android:textColor="@color/color_primary"
+                android:textStyle="bold"
+                android:layout_marginEnd="10dp"
+                aap:layout_constraintEnd_toEndOf="parent"
+                aap:layout_constraintTop_toTopOf="@id/tv_hotel_name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_per_night"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/night"
+                android:textSize="11sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="6dp"
+                aap:layout_constraintTop_toBottomOf="@id/tv_price"
+                aap:layout_constraintStart_toStartOf="@id/tv_price"
+                aap:layout_constraintEnd_toEndOf="@id/tv_price"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                aap:srcCompat="@drawable/ic_bookmark"
+                aap:layout_constraintTop_toBottomOf="@id/tv_per_night"
+                aap:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{hotel.location}"
+                android:textSize="14sp"
+                android:textColor="#242424"
+                aap:layout_constraintStart_toStartOf="@id/tv_hotel_name"
+                aap:layout_constraintTop_toTopOf="@id/iv_poster"
+                aap:layout_constraintBottom_toBottomOf="@id/iv_poster" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_star_white"
+                android:drawableTint="#FED201"
+                android:text="5.0   (4,345 reviews)"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:drawablePadding="4dp"
+                android:layout_marginBottom="8dp"
+                aap:layout_constraintStart_toStartOf="@id/tv_hotel_name"
+                aap:layout_constraintBottom_toBottomOf="@id/iv_poster"
+                />
+
+        </carbon.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
