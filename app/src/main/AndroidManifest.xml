@@ -49,7 +49,7 @@
             tools:ignore="LockedOrientationActivity" />
 
         <activity
-            android:name=".ui.booking.SelectDateActivity"
+            android:name=".ui.booking.BookingActivity"
             android:exported="true"
             tools:ignore="LockedOrientationActivity" />
 

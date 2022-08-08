@@ -30,6 +30,8 @@ abstract class BaseActivity <DB : ViewDataBinding>: AppCompatActivity(), KodeinA
     private val progressDialog by lazy {
         ProgressDialog(this)
     }
+    private var ignoreBackPressed = false
+    val isIgnoreBackPressed get() = ignoreBackPressed
 
     @LayoutRes
     abstract fun inflateLayout(): Int

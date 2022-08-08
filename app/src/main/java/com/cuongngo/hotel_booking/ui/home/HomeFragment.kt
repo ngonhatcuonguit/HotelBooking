@@ -134,7 +134,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
     override fun inflateLayout() = R.layout.fragment_home
 
     override fun setUp() {
-        binding.tvSeeAllRecentlyBooked.setOnClickListener {
+        binding.clRecentlyBooked.setOnClickListener {
             startActivity(Intent(context, HomeIndexActivity::class.java))
         }
         setupRcvCategories()

@@ -24,6 +24,11 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="DialogSuccessThem"
+        parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_round_white_radius_26</item>
+    </style>
+
     <!--    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">-->
     <!--        <item name="android:windowBackground">@drawable/valentine</item>-->
     <!--        <item name="android:windowTranslucentStatus">true</item>-->
