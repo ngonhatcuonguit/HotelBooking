@@ -25,19 +25,11 @@ class Constants {
         }
     }
 
-    class MediaType{
+    class Key{
         companion object{
-            const val ALL = "all"
-            const val MOVIE = "movie"
-            const val TV = "tv"
-            const val PERSON = "person"
-        }
-    }
-
-    class TimeWindow{
-        companion object{
-            const val DAY = "day"
-            const val WEEK = "week"
+            const val ACTION = "action"
+            const val EDIT_PROFILE = "edit_profile"
+            const val SIGN_UP = "sign_up"
         }
     }
 

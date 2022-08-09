@@ -15,6 +15,11 @@
         <entry key="..\:/hotel_booking/app/src/main/res/layout/fragment_search.xml" value="0.36666666666666664" />
         <entry key="..\:/hotel_booking/app/src/main/res/layout/item_category.xml" value="0.365625" />
         <entry key="..\:/hotel_booking/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/layout/activity_home_index 2.xml" value="0.2558876811594203" />
+        <entry key="app/src/main/res/layout/activity_hotel_detail.xml" value="0.1408308004052685" />
+        <entry key="app/src/main/res/layout/activity_select_date 2.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/activity_select_date.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.15476190476190477" />
       </map>
     </option>
   </component>

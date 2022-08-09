@@ -124,7 +124,7 @@ class HomeIndexActivity : BaseActivity<ActivityHomeIndexBinding>(), HotelAdapter
 
     }
 
-    override fun onSelectedListener(hotelModel: HotelModel) {
+    override fun onHotelSelectedListener(hotelModel: HotelModel) {
         startActivity(Intent(this, HotelDetailActivity::class.java))
     }
 

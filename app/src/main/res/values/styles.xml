@@ -24,6 +24,28 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="DialogSuccessThem"
+        parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/bg_round_white_radius_26</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_item_bottom_sheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme.AdjustResize" parent="BottomSheetDialogTheme">
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary</item>
+        <item name="colorAccent">@color/color_primary</item>
+    </style>
+
     <!--    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">-->
     <!--        <item name="android:windowBackground">@drawable/valentine</item>-->
     <!--        <item name="android:windowTranslucentStatus">true</item>-->

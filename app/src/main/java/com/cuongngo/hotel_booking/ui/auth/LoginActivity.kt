@@ -4,9 +4,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.text.SpannableStringBuilder
 import androidx.core.text.color
+import com.cuongngo.cinemax.utils.Constants.Key.Companion.ACTION
+import com.cuongngo.cinemax.utils.Constants.Key.Companion.EDIT_PROFILE
+import com.cuongngo.cinemax.utils.Constants.Key.Companion.SIGN_UP
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.databinding.ActivityLoginBinding
+import com.cuongngo.hotel_booking.ui.MainActivity
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
@@ -25,10 +29,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 onBackPressed()
             }
             btnSignIn.setOnClickListener {
-                finish()
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             }
             tvSignUp.setOnClickListener {
-                startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+                startActivity(Intent(this@LoginActivity, SignUpActivity::class.java).apply {
+                    putExtra(ACTION, SIGN_UP)
+                })
             }
         }
     }

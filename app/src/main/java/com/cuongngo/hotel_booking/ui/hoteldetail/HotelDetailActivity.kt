@@ -6,9 +6,8 @@ import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.databinding.ActivityHotelDetailBinding
 import com.cuongngo.hotel_booking.response.GalleryModel
-import com.cuongngo.hotel_booking.response.HotelModel
-import com.cuongngo.hotel_booking.ui.auth.LoginActivity
-import com.cuongngo.hotel_booking.ui.home.HotelAdapter
+import com.cuongngo.hotel_booking.ui.booking.BookingActivity
+import com.cuongngo.hotel_booking.ui.booking.SelectDateFragment
 
 class HotelDetailActivity : BaseActivity<ActivityHotelDetailBinding>() {
 
@@ -63,13 +62,13 @@ class HotelDetailActivity : BaseActivity<ActivityHotelDetailBinding>() {
                 onBackPressed()
             }
             btnBookNow.setOnClickListener {
-                startActivity(Intent(this@HotelDetailActivity, LoginActivity::class.java))
+                startActivity(Intent(this@HotelDetailActivity, BookingActivity::class.java))
             }
         }
-        setupRcvgallery()
+        setupRcvGallery()
     }
 
-    private fun setupRcvgallery(){
+    private fun setupRcvGallery(){
         galleryAdapter = GalleryAdapter(
             arrayListOf()
         )

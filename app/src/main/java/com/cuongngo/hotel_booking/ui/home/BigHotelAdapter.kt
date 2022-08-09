@@ -17,7 +17,7 @@ class BigHotelAdapter(
     private var listHotel = listHotel
 
     interface SelectedListener {
-        fun onSelectedListener(hotelModel: HotelModel)
+        fun onBigHotelSelectedListener(hotelModel: HotelModel)
     }
 
     class BigHotelViewHolder(
@@ -48,7 +48,7 @@ class BigHotelAdapter(
         }
 
         binding.root.setOnClickListener {
-            selectedListener.onSelectedListener(item)
+            selectedListener.onBigHotelSelectedListener(item)
         }
 
     }
