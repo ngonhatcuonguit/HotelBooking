@@ -9,6 +9,7 @@ import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.databinding.ActivityMainBinding
 import com.cuongngo.hotel_booking.ui.home.HomeFragment
+import com.cuongngo.hotel_booking.ui.mybooking.MyBookingFragment
 import com.cuongngo.hotel_booking.ui.profile.ProfileFragment
 import com.cuongngo.hotel_booking.ui.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,10 +48,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     transaction.show(homeFragment)
                     val searchFragment = fragmentManager.findFragmentByTag(SearchFragment.TAG)
                     val profileFragment = fragmentManager.findFragmentByTag(ProfileFragment.TAG)
-                    if (searchFragment != null) {
-                        transaction.remove(searchFragment)
-                    }
+                    val myBookingFragment = fragmentManager.findFragmentByTag(MyBookingFragment.TAG)
+                    if (searchFragment != null) { transaction.remove(searchFragment) }
                     if (profileFragment != null) transaction.remove(profileFragment)
+                    if (myBookingFragment != null) transaction.remove(myBookingFragment)
                     transaction.commit()
                     currentFragment = HomeFragment.TAG
                 }
@@ -75,9 +76,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     transaction.hide(homeFragment)
                     val profileFragment = fragmentManager.findFragmentByTag(ProfileFragment.TAG)
                     val searchFragment = fragmentManager.findFragmentByTag(SearchFragment.TAG)
-                    if (searchFragment != null) {
-                        transaction.remove(searchFragment)
-                    }
+                    if (searchFragment != null) { transaction.remove(searchFragment) }
+                    val myBookingFragment = fragmentManager.findFragmentByTag(MyBookingFragment.TAG)
+                    if (myBookingFragment != null) {transaction.remove(myBookingFragment)}
                     if (profileFragment == null){
                         transaction.add(
                             R.id.container,
@@ -86,6 +87,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         )
                         transaction.commit()
                         currentFragment = ProfileFragment.TAG
+                    }else {
+
+                    }
+                }
+
+                R.id.navigation_booking -> {
+                    val transaction = fragmentManager.beginTransaction()
+                    transaction.hide(homeFragment)
+                    val profileFragment = fragmentManager.findFragmentByTag(ProfileFragment.TAG)
+                    val searchFragment = fragmentManager.findFragmentByTag(SearchFragment.TAG)
+                    val myBookingFragment = fragmentManager.findFragmentByTag(MyBookingFragment.TAG)
+                    if (searchFragment != null) { transaction.remove(searchFragment) }
+                    if (profileFragment != null) { transaction.remove(profileFragment) }
+                    if ( myBookingFragment == null){
+                        transaction.add(
+                            R.id.container,
+                            MyBookingFragment(),
+                            MyBookingFragment.TAG
+                        )
+                        transaction.commit()
+                        currentFragment = MyBookingFragment.TAG
                     }else {
 
                     }

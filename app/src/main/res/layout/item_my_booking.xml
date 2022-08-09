@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aap="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="hotel"
+            type="com.cuongngo.hotel_booking.response.HotelModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:paddingHorizontal="21dp"
+        android:paddingTop="22dp">
+
+        <carbon.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="22dp"
+            aap:carbon_cornerRadius="11dp"
+            aap:layout_constraintDimensionRatio="348:120"
+            aap:layout_constraintStart_toStartOf="parent"
+            aap:layout_constraintTop_toTopOf="parent">
+
+            <carbon.widget.ImageView
+                android:id="@+id/iv_poster"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="14dp"
+                android:layout_marginStart="11dp"
+                android:src="@drawable/background_item"
+                aap:carbon_cornerRadius="11dp"
+                aap:layout_constraintDimensionRatio="1:1"
+                aap:layout_constraintStart_toStartOf="parent"
+                aap:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_hotel_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{hotel.name}"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="@dimen/_20dp"
+                aap:layout_constraintEnd_toEndOf="parent"
+                aap:layout_constraintStart_toEndOf="@id/iv_poster"
+                aap:layout_constraintTop_toTopOf="@id/iv_poster" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{hotel.location}"
+                android:textColor="#242424"
+                android:textSize="14sp"
+                aap:layout_constraintBottom_toBottomOf="@id/iv_poster"
+                aap:layout_constraintStart_toStartOf="@id/tv_hotel_name"
+                aap:layout_constraintTop_toTopOf="@id/iv_poster" />
+
+            <carbon.widget.TextView
+                android:layout_width="68dp"
+                android:layout_height="21dp"
+                android:layout_marginBottom="8dp"
+                android:background="#DBF8E6"
+                android:gravity="center"
+                android:text="Paid"
+                android:textColor="@color/color_primary"
+                android:textSize="11sp"
+                aap:carbon_cornerRadius="6dp"
+                aap:layout_constraintBottom_toBottomOf="@id/iv_poster"
+                aap:layout_constraintStart_toStartOf="@id/tv_hotel_name" />
+
+            <View
+                android:id="@+id/view_space0"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="@dimen/_20dp"
+                android:layout_marginTop="16dp"
+                android:background="#40000000"
+                aap:layout_constraintStart_toStartOf="parent"
+                aap:layout_constraintTop_toBottomOf="@id/iv_poster" />
+
+            <carbon.widget.TextView
+                android:id="@+id/tv_cancel_booking"
+                android:layout_width="0dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="41dp"
+                android:layout_marginTop="@dimen/_18dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:paddingHorizontal="9dp"
+                android:paddingVertical="5dp"
+                android:text="Cancel Booking"
+                android:textColor="@color/color_primary"
+                android:textSize="15sp"
+                aap:carbon_cornerRadius="15dp"
+                aap:carbon_stroke="@color/color_primary"
+                aap:carbon_strokeWidth="1dp"
+                android:layout_marginEnd="8dp"
+                aap:layout_constraintStart_toStartOf="parent"
+                aap:layout_constraintEnd_toStartOf="@id/tv_view_ticket"
+                aap:layout_constraintTop_toBottomOf="@id/view_space0" />
+
+            <carbon.widget.TextView
+                android:id="@+id/tv_view_ticket"
+                android:layout_width="0dp"
+                android:layout_height="31dp"
+                android:background="@color/color_primary"
+                android:gravity="center"
+                android:paddingHorizontal="9dp"
+                android:paddingVertical="5dp"
+                android:text="View Ticket"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                aap:carbon_cornerRadius="15dp"
+                android:layout_marginStart="@dimen/_8dp"
+                android:layout_marginEnd="41dp"
+                aap:layout_constraintEnd_toEndOf="parent"
+                aap:layout_constraintStart_toEndOf="@id/tv_cancel_booking"
+                aap:layout_constraintTop_toTopOf="@id/tv_cancel_booking"
+                aap:layout_constraintBottom_toBottomOf="@id/tv_cancel_booking"
+                aap:layout_constraintTop_toBottomOf="@id/view_space0" />
+
+
+        </carbon.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
