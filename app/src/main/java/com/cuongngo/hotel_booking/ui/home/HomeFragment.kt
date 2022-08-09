@@ -174,12 +174,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
     }
 
 
-    override fun onSelectedListener(hotelModel: HotelModel) {
+    override fun onBigHotelSelectedListener(hotelModel: HotelModel) {
             startActivity(Intent(context, HotelDetailActivity::class.java))
     }
 
 
-    override fun onSelectedListener(categoryModel: CategoryModel) {
+    override fun onCategorySelectedListener(categoryModel: CategoryModel) {
         handleChooseCategory(categoryModel)
     }
 

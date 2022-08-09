@@ -59,6 +59,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     val transaction = fragmentManager.beginTransaction()
                     transaction.hide(homeFragment)
                     val searchFragment = fragmentManager.findFragmentByTag(SearchFragment.TAG)
+                    val profileFragment = fragmentManager.findFragmentByTag(ProfileFragment.TAG)
+                    val myBookingFragment = fragmentManager.findFragmentByTag(MyBookingFragment.TAG)
+                    if (profileFragment != null) transaction.remove(profileFragment)
+                    if (myBookingFragment != null) transaction.remove(myBookingFragment)
+
                     if (searchFragment == null){
                         transaction.add(
                             R.id.container,

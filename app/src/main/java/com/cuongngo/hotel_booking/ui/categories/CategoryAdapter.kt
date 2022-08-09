@@ -18,7 +18,7 @@ class CategoryAdapter(
     private val listCategory = listCategory
 
     interface SelectedListener{
-        fun onSelectedListener(categoryModel: CategoryModel)
+        fun onCategorySelectedListener(categoryModel: CategoryModel)
     }
 
     class CategoryViewHolder(
@@ -48,7 +48,7 @@ class CategoryAdapter(
         }else binding.clContainer.setPadding(0,0,paddingEnd,0)
 
         binding.root.setOnClickListener {
-            selectedListener.onSelectedListener(item)
+            selectedListener.onCategorySelectedListener(item)
         }
 
         if (item.is_selected){

@@ -20,7 +20,7 @@ class HotelAdapter(
     ): RecyclerView.ViewHolder(itemHotelBinding.root)
 
     interface SelectedListener {
-        fun onSelectedListener(hotelModel: HotelModel)
+        fun onHotelSelectedListener(hotelModel: HotelModel)
     }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelViewHolder {
@@ -40,7 +40,7 @@ class HotelAdapter(
         binding.hotel = item
 
         binding.root.setOnClickListener {
-            selectedListener.onSelectedListener(item)
+            selectedListener.onHotelSelectedListener(item)
         }
 
     }
