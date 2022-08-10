@@ -1,9 +1,8 @@
 package com.cuongngo.hotel_booking.ui.profile
 
 import android.content.Intent
-import com.cuongngo.cinemax.utils.Constants
-import com.cuongngo.cinemax.utils.Constants.Key.Companion.ACTION
-import com.cuongngo.cinemax.utils.Constants.Key.Companion.EDIT_PROFILE
+import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.ACTION
+import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.EDIT_PROFILE
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.fragment.BaseFragment
 import com.cuongngo.hotel_booking.databinding.FragmentProfileBinding

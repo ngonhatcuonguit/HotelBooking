@@ -4,9 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.text.SpannableStringBuilder
 import androidx.core.text.color
-import com.cuongngo.cinemax.utils.Constants.Key.Companion.ACTION
-import com.cuongngo.cinemax.utils.Constants.Key.Companion.EDIT_PROFILE
-import com.cuongngo.cinemax.utils.Constants.Key.Companion.SIGN_UP
+import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.ACTION
+import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.SIGN_UP
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.databinding.ActivityLoginBinding

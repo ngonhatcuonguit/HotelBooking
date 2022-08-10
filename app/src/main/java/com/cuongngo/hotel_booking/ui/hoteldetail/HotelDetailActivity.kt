@@ -7,7 +7,6 @@ import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.databinding.ActivityHotelDetailBinding
 import com.cuongngo.hotel_booking.response.GalleryModel
 import com.cuongngo.hotel_booking.ui.booking.BookingActivity
-import com.cuongngo.hotel_booking.ui.booking.SelectDateFragment
 
 class HotelDetailActivity : BaseActivity<ActivityHotelDetailBinding>() {
 
