@@ -1,22 +1,18 @@
 package com.cuongngo.hotel_booking.ui.auth
 
-import android.util.Log
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.ACTION
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.EDIT_PROFILE
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.AppBaseActivityMVVM
-import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.ActivitySignUpBinding
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.SIGN_UP
-import com.cuongngo.hotel_booking.utils.validateFullName
-import com.cuongngo.hotel_booking.utils.validateFullNameLength
 
-class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, SignUpViewModel>() {
+class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>() {
 
-    override val viewModel: SignUpViewModel by kodeinViewModel()
+    override val viewModel: UserViewModel by kodeinViewModel()
 
     private val action by lazy { intent.getStringExtra(ACTION) ?:"" }
 
@@ -72,10 +68,10 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, SignUpViewMode
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    Log.d("test response", "${it.data?.data}")
+
                 },
                 onError = {
-
+                    showDialog(title ="Chú ý", message = it.data?.result.toString() )
                 }
             )
         }

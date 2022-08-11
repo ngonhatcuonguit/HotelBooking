@@ -6,7 +6,7 @@ import com.cuongngo.hotel_booking.services.HotelApi
 import com.cuongngo.hotel_booking.services.network.invoker.NetworkConnectionInterceptor
 import com.cuongngo.hotel_booking.services.remote.UserRemoteDataSource
 import com.cuongngo.hotel_booking.services.repository.UserRepository
-import com.cuongngo.hotel_booking.ui.auth.SignUpViewModel
+import com.cuongngo.hotel_booking.ui.auth.UserViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -24,8 +24,8 @@ val appModule = Kodein.Module(APP_MODULE, false) {
     bind() from singleton { UserRemoteDataSource(instance()) }
     bind() from singleton { UserRepository(instance()) }
 
-    bindViewModel<SignUpViewModel>() with provider {
-        SignUpViewModel(instance())
+    bindViewModel<UserViewModel>() with provider {
+        UserViewModel(instance())
     }
 
 }

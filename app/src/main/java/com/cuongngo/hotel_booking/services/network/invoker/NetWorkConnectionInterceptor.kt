@@ -16,7 +16,7 @@ class NetworkConnectionInterceptor(
     private val handler = Handler(Looper.getMainLooper())
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        if(!isInternetAvailabel()) {
+        if(!isInternetAvailable()) {
             val urlString  =  chain.request().url.toString()
             if(!urlString.contains("notifications/status")){
                 //connection failed
@@ -28,7 +28,7 @@ class NetworkConnectionInterceptor(
 
     }
 
-    private fun isInternetAvailabel() : Boolean {
+    private fun isInternetAvailable() : Boolean {
 
         val connectivityManager =
             applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

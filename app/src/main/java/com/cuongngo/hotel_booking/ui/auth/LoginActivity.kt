@@ -7,11 +7,18 @@ import androidx.core.text.color
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.ACTION
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.SIGN_UP
 import com.cuongngo.hotel_booking.R
+import com.cuongngo.hotel_booking.base.activity.AppBaseActivityMVVM
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
+import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.ActivityLoginBinding
+import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
+import com.cuongngo.hotel_booking.local.AppPreferences
+import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.MainActivity
 
-class LoginActivity : BaseActivity<ActivityLoginBinding>() {
+class LoginActivity : AppBaseActivityMVVM<ActivityLoginBinding, UserViewModel>() {
+
+    override val viewModel: UserViewModel by kodeinViewModel()
 
     override fun inflateLayout() = R.layout.activity_login
 
@@ -28,7 +35,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 onBackPressed()
             }
             btnSignIn.setOnClickListener {
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                viewModel.login(
+                    email = edtEmail.text.toString(),
+                    password = edtPassword.text.toString()
+                )
             }
             tvSignUp.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, SignUpActivity::class.java).apply {
@@ -39,6 +49,20 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     }
 
     override fun setUpObserver() {
-
+        observeLiveDataChanged(viewModel.login){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    AppPreferences.setUserAccessToken(it.data?.data?.access_token.toString())
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                },
+                onError = {
+                    showDialog(title = "Chú ý", message = it.data?.result)
+                }
+            )
+        }
     }
 }
