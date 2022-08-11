@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.fragment.BaseFragment
 import com.cuongngo.hotel_booking.databinding.FragmentHomeBinding
+import com.cuongngo.hotel_booking.local.AppPreferences
 import com.cuongngo.hotel_booking.response.CategoryModel
 import com.cuongngo.hotel_booking.response.HotelModel
 import com.cuongngo.hotel_booking.ui.categories.CategoryAdapter
@@ -134,8 +135,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
     override fun inflateLayout() = R.layout.fragment_home
 
     override fun setUp() {
-        binding.clRecentlyBooked.setOnClickListener {
-            startActivity(Intent(context, HomeIndexActivity::class.java))
+        with(binding){
+            clRecentlyBooked.setOnClickListener {
+                startActivity(Intent(context, HomeIndexActivity::class.java))
+            }
+            if (AppPreferences.getNickName().isNullOrEmpty()){
+                tvWelcome.text = "Login to booking now"
+            }else {
+                tvWelcome.text = AppPreferences.getNickName()
+            }
         }
         setupRcvCategories()
         setupRcvBigHotel()

@@ -11,6 +11,7 @@ object AppPreferences {
     private var editor: SharedPreferences.Editor
     const val REFERENCES_NAME = "AppPreferences"
     const val KEY_USER_ACCESS_TOKEN = "USER_ACCESS_TOKEN"
+    const val KEY_NICK_NAME = "key_nick_name"
 
     init {
         preferences = App.getInstance().getSharedPreferences(REFERENCES_NAME, Context.MODE_PRIVATE)
@@ -24,6 +25,16 @@ object AppPreferences {
     fun setUserAccessToken(token: String) {
         editor.also {
             it.putString(KEY_USER_ACCESS_TOKEN, token)
+            it.commit()
+        }
+    }
+
+    fun getNickName():String{
+        return preferences.getString(KEY_NICK_NAME, "") ?: ""
+    }
+    fun setNickName(nickName: String){
+        editor.also {
+            it.putString(KEY_NICK_NAME, nickName)
             it.commit()
         }
     }
