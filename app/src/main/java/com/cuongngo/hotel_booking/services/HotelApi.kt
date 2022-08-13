@@ -3,10 +3,7 @@ package com.cuongngo.hotel_booking.services
 import com.cuongngo.hotel_booking.response.*
 import com.cuongngo.hotel_booking.services.network.invoker.ApiClientFactory
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface HotelApi {
 
@@ -35,6 +32,15 @@ interface HotelApi {
 
     @GET("me/information")
     suspend fun getUser(): Response<BaseResponse<UserModel>>
+
+    @GET("home/index")
+    suspend fun getListHotel(
+        @Query("filtering") filtering: String? = null,
+        @Query("city_id") city_id: String? = null,
+        @Query("count") count: String? = null,
+        @Query("after") after: String? = null,
+        @Query("name") name: String? = null
+    ): Response<HotelResponse>
 
     companion object {
         operator fun invoke(): HotelApi {

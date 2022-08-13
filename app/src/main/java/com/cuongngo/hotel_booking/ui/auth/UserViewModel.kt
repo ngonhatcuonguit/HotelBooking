@@ -35,6 +35,7 @@ class UserViewModel(private val userRepository: UserRepository) : BaseViewModel(
         birthday: String,
         gender: String
     ) {
+        _signUp.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _signUp.postValue(
@@ -57,6 +58,7 @@ class UserViewModel(private val userRepository: UserRepository) : BaseViewModel(
         email: String,
         password: String
     ) {
+        _login.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _login.postValue(
@@ -67,6 +69,7 @@ class UserViewModel(private val userRepository: UserRepository) : BaseViewModel(
     }
 
     fun logOut() {
+        _logout.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _logout.postValue(
@@ -77,6 +80,7 @@ class UserViewModel(private val userRepository: UserRepository) : BaseViewModel(
     }
 
     fun getUser() {
+        _getUser.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _getUser.postValue(

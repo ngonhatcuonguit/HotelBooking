@@ -5,14 +5,20 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.fragment.BaseFragment
+import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
+import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.FragmentHomeBinding
+import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.local.AppPreferences
 import com.cuongngo.hotel_booking.response.CategoryModel
 import com.cuongngo.hotel_booking.response.HotelModel
+import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.categories.CategoryAdapter
 import com.cuongngo.hotel_booking.ui.hoteldetail.HotelDetailActivity
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.SelectedListener, BigHotelAdapter.SelectedListener {
+class HomeFragment : BaseFragmentMVVM<FragmentHomeBinding, HomeViewModel>(), CategoryAdapter.SelectedListener, BigHotelAdapter.SelectedListener {
+
+    override val viewModel: HomeViewModel by kodeinViewModel()
 
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var bigHotelAdapter: BigHotelAdapter
@@ -39,98 +45,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
             false
         )
     )
-    var listHotel = arrayOf(
-        HotelModel(
-          1,
-           5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-          2,
-           4.9F,
-            "Nevada Hotel",
-            "HCM, Viet Nam",
-            150,
-            "https://www.traveloka.com/vi-vn/hotel/vietnam/z-hotel-sai-gon-9000000209252",
-            8000
-        ),
-        HotelModel(
-          3,
-           4.0F,
-            "Oriental Hotel",
-            "Lagos, Nigeria",
-            205,
-            "",
-            4000
-        ),
-        HotelModel(
-          4,
-           3.8F,
-            "Federal Palace Hotel",
-            "Ha Noi, Viet Nam",
-            300,
-            "https://www.booking.com/hotel/vn/yes-da-nang.vi.html",
-            9000
-        ),
-        HotelModel(
-          5,
-           5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-          6,
-           5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-          7,
-           5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-          8,
-           5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-          9,
-           5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-          10,
-           5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-    )
 
     override fun inflateLayout() = R.layout.fragment_home
 
@@ -145,8 +59,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
                 tvWelcome.text = AppPreferences.getNickName()
             }
         }
+        viewModel.getListHotel()
         setupRcvCategories()
-        setupRcvBigHotel()
     }
 
     private fun setupRcvCategories(){
@@ -167,7 +81,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
 
     }
 
-    private fun setupRcvBigHotel(){
+    private fun setupRcvBigHotel(listHotel: List<HotelModel>?){
         val gridLayoutManager =
             GridLayoutManager(requireActivity(), 1, RecyclerView.HORIZONTAL, false)
 
@@ -176,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
             this
         )
 
-        bigHotelAdapter.submitListHotel(listHotel.toList())
+        bigHotelAdapter.submitListHotel(listHotel.orEmpty())
         binding.rvListMain.adapter = bigHotelAdapter
 
     }
@@ -205,7 +119,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), CategoryAdapter.Select
         categoryAdapter.notifyItemChanged(oldIndex)
     }
 
-    override fun setUpObserver() { }
+    override fun setUpObserver() {
+        observeLiveDataChanged(viewModel.listHotel){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    setupRcvBigHotel(it.data?.data?.hotels.orEmpty())
+                },
+                onError = {
+                    hideProgressDialog()
+                    showDialog("Warning", "Error")
+                }
+            )
+        }
+    }
 
     companion object {
         val TAG = HomeFragment::class.java.simpleName
