@@ -1,8 +1,6 @@
 package com.cuongngo.hotel_booking.services.repository
 
-import com.cuongngo.hotel_booking.response.AuthModel
-import com.cuongngo.hotel_booking.response.BaseResponse
-import com.cuongngo.hotel_booking.response.UserModel
+import com.cuongngo.hotel_booking.response.*
 import com.cuongngo.hotel_booking.services.network.BaseResult
 import com.cuongngo.hotel_booking.services.remote.UserRemoteDataSource
 
@@ -26,8 +24,15 @@ class UserRepository(private val userRemoteDataSource: UserRemoteDataSource) {
     suspend fun login(
         email: String,
         password: String
-    ): BaseResult<BaseResponse<UserModel>> {
+    ): BaseResult<BaseResponse<UserResponse>> {
         return userRemoteDataSource.login(email, password)
+    }
+
+    suspend fun logout() : BaseResult<BaseModelResponse> {
+        return userRemoteDataSource.logout()
+    }
+    suspend fun getUser() : BaseResult<BaseResponse<UserModel>> {
+        return userRemoteDataSource.getUser()
     }
 
 }

@@ -12,10 +12,14 @@ data class AuthModel(
     var created_at: String?
 ): BaseModel()
 
-data class UserModel(
+data class UserResponse(
     var access_token: String?,
     var token_type: String?,
     var expires_in: Long?,
+    var user: UserModel?
+)
+
+data class UserModel(
     var id: Int?,
     var name: String?,
     var email: String?,

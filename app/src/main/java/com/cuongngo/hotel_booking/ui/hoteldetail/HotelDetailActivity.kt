@@ -5,7 +5,9 @@ import com.cuongngo.hotel_booking.App
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.databinding.ActivityHotelDetailBinding
+import com.cuongngo.hotel_booking.local.AppPreferences
 import com.cuongngo.hotel_booking.response.GalleryModel
+import com.cuongngo.hotel_booking.ui.auth.LoginActivity
 import com.cuongngo.hotel_booking.ui.booking.BookingActivity
 
 class HotelDetailActivity : BaseActivity<ActivityHotelDetailBinding>() {
@@ -61,7 +63,9 @@ class HotelDetailActivity : BaseActivity<ActivityHotelDetailBinding>() {
                 onBackPressed()
             }
             btnBookNow.setOnClickListener {
-                startActivity(Intent(this@HotelDetailActivity, BookingActivity::class.java))
+                if (AppPreferences.getUserAccessToken().isNullOrEmpty()){
+                    startActivity(Intent(this@HotelDetailActivity, LoginActivity::class.java))
+                }else startActivity(Intent(this@HotelDetailActivity, BookingActivity::class.java))
             }
         }
         setupRcvGallery()

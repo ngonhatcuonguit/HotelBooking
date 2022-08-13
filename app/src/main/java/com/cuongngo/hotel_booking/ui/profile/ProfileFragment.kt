@@ -5,10 +5,19 @@ import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.ACTION
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.EDIT_PROFILE
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.fragment.BaseFragment
+import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
+import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.FragmentProfileBinding
+import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
+import com.cuongngo.hotel_booking.local.AppPreferences
+import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.auth.SignUpActivity
+import com.cuongngo.hotel_booking.ui.auth.UserViewModel
 
-class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
+class ProfileFragment : BaseFragmentMVVM<FragmentProfileBinding, UserViewModel>(), LogoutBottomSheetFragment.LogoutListener {
+
+    override val viewModel: UserViewModel by kodeinViewModel()
+
     override fun inflateLayout() = R.layout.fragment_profile
 
     override fun setUp() {
@@ -19,12 +28,35 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 })
             }
             tvLogout.setOnClickListener {
-                LogoutBottomSheetFragment().show(childFragmentManager, LogoutBottomSheetFragment.TAG)
+                LogoutBottomSheetFragment(this@ProfileFragment).show(childFragmentManager, LogoutBottomSheetFragment.TAG)
             }
+
         }
     }
 
-    override fun setUpObserver() { }
+    override fun onLogoutSelected() {
+        viewModel.logOut()
+    }
+
+    override fun setUpObserver() {
+        observeLiveDataChanged(viewModel.logout){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    AppPreferences.setNickName("")
+                    AppPreferences.setUserAccessToken("")
+                    showDialog("Chú ý", message = "Bạn đã logout thành công")
+                },
+                onError = {
+                    showDialog("Chú ý", message = it.data?.result)
+                }
+            )
+        }
+
+    }
 
     companion object {
         val TAG = ProfileFragment::class.java.simpleName

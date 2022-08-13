@@ -109,7 +109,7 @@ class LoginActivity : AppBaseActivityMVVM<ActivityLoginBinding, UserViewModel>()
                 onSuccess = {
                     hideProgressDialog()
                     AppPreferences.setUserAccessToken(it.data?.data?.access_token.toString())
-                    AppPreferences.setNickName(it.data?.data?.nickname.toString())
+                    AppPreferences.setNickName(it.data?.data?.user?.name.toString())
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 },
                 onError = {

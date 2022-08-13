@@ -1,12 +1,11 @@
 package com.cuongngo.hotel_booking.services
 
-import com.cuongngo.hotel_booking.response.AuthModel
-import com.cuongngo.hotel_booking.response.BaseResponse
-import com.cuongngo.hotel_booking.response.UserModel
+import com.cuongngo.hotel_booking.response.*
 import com.cuongngo.hotel_booking.services.network.invoker.ApiClientFactory
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface HotelApi {
@@ -29,7 +28,13 @@ interface HotelApi {
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ): Response<BaseResponse<UserModel>>
+    ): Response<BaseResponse<UserResponse>>
+
+    @POST("me/logout")
+    suspend fun logout(): Response<BaseModelResponse>
+
+    @GET("me/information")
+    suspend fun getUser(): Response<BaseResponse<UserModel>>
 
     companion object {
         operator fun invoke(): HotelApi {

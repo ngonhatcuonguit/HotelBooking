@@ -26,4 +26,12 @@ class UserRemoteDataSource(private val apiService: HotelApi) : BaseRemoteDataSou
         apiService.login(email, password)
     }
 
+    suspend fun logout() = getResult {
+        apiService.logout()
+    }
+
+    suspend fun getUser() = getResult {
+        apiService.getUser()
+    }
+
 }
