@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">hotel_booking</string>
+    <string name="hotel_price">%1$s đ</string>
 </resources>

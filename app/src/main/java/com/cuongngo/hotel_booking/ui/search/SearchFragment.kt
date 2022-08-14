@@ -5,18 +5,24 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.fragment.BaseFragment
+import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
+import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.FragmentSearchBinding
+import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.response.CategoryModel
 import com.cuongngo.hotel_booking.response.HotelModel
+import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.categories.CategoryAdapter
+import com.cuongngo.hotel_booking.ui.home.HomeViewModel
 import com.cuongngo.hotel_booking.ui.home.HotelAdapter
 import com.cuongngo.hotel_booking.ui.hoteldetail.HotelDetailActivity
 
-class SearchFragment : BaseFragment<FragmentSearchBinding>(), HotelAdapter.SelectedListener, CategoryAdapter.SelectedListener {
+class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding,HomeViewModel>(), HotelAdapter.SelectedListener, CategoryAdapter.SelectedListener {
+
+    override val viewModel: HomeViewModel by kodeinViewModel()
 
     private lateinit var hotelAdapter: HotelAdapter
     private lateinit var categoryAdapter: CategoryAdapter
-    var listHotel = arrayListOf<HotelModel>()
     var categorySelected: CategoryModel? = null
     var listCategory = arrayOf(
         CategoryModel(
@@ -44,11 +50,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), HotelAdapter.Selec
     override fun inflateLayout() = R.layout.fragment_search
 
     override fun setUp() {
+        viewModel.getListHotel()
         setupRcvCategories()
-        setupRcvHotel()
     }
 
-    private fun setupRcvHotel(){
+    private fun setupRcvHotel(listHotel: List<HotelModel>){
         hotelAdapter = HotelAdapter(
             arrayListOf(),
             this
@@ -100,7 +106,23 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), HotelAdapter.Selec
         categoryAdapter.notifyItemChanged(oldIndex)
     }
 
-    override fun setUpObserver() {}
+    override fun setUpObserver() {
+        observeLiveDataChanged(viewModel.listHotel){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    setupRcvHotel(it.data?.data?.hotels.orEmpty())
+                },
+                onError = {
+                    hideProgressDialog()
+                }
+            )
+        }
+
+    }
 
     companion object {
         val TAG = SearchFragment::class.java.simpleName

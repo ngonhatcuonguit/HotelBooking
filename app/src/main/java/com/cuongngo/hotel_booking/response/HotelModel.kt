@@ -30,8 +30,8 @@ data class HotelModel(
     var district: City?,
     var ward: City?,
     var images: List<Image>?,
-    var image: String?,
-    var view: Long?
+    var view: Long?,
+    var number_star: Float?
 ): BaseModel()
 
 data class City(

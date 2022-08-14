@@ -32,6 +32,7 @@
                 android:layout_marginStart="11dp"
                 aap:carbon_cornerRadius="11dp"
                 android:src="@drawable/background_item"
+                loadImageHotel="@{hotel}"
                 aap:layout_constraintDimensionRatio="1:1"
                 aap:layout_constraintStart_toStartOf="parent"
                 aap:layout_constraintTop_toTopOf="parent" />
@@ -48,54 +49,50 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_marginStart="6dp"
+                android:layout_marginEnd="@dimen/_10dp"
                 aap:layout_constraintTop_toTopOf="@id/iv_poster"
                 aap:layout_constraintStart_toEndOf="@id/iv_poster"
-                aap:layout_constraintEnd_toStartOf="@id/tv_price" />
+                aap:layout_constraintEnd_toEndOf="parent" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@id/iv_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                aap:srcCompat="@drawable/ic_bookmark"
+                aap:layout_constraintTop_toTopOf="@id/tv_location"
+                aap:layout_constraintEnd_toEndOf="parent"
+                aap:layout_constraintBottom_toBottomOf="@id/tv_location"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{hotel.city.desc}"
+                android:textSize="14sp"
+                android:textColor="#242424"
+                android:maxLines="1"
+                android:ellipsize="end"
+                aap:layout_constraintStart_toStartOf="@id/tv_hotel_name"
+                aap:layout_constraintEnd_toStartOf="@id/iv_bookmark"
+                aap:layout_constraintTop_toTopOf="@id/iv_poster"
+                aap:layout_constraintBottom_toBottomOf="@id/iv_poster" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                displayPrice="@{hotel.price}"
+                hotelPrice="@{hotel.price}"
                 android:textSize="18sp"
                 android:textColor="@color/color_primary"
                 android:textStyle="bold"
                 android:layout_marginEnd="10dp"
                 aap:layout_constraintEnd_toEndOf="parent"
-                aap:layout_constraintTop_toTopOf="@id/tv_hotel_name" />
+                aap:layout_constraintTop_toTopOf="@id/tv_review"
+                aap:layout_constraintBottom_toBottomOf="@id/tv_review" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_per_night"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/night"
-                android:textSize="11sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="6dp"
-                aap:layout_constraintTop_toBottomOf="@id/tv_price"
-                aap:layout_constraintStart_toStartOf="@id/tv_price"
-                aap:layout_constraintEnd_toEndOf="@id/tv_price"
-                />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
-                aap:srcCompat="@drawable/ic_bookmark"
-                aap:layout_constraintTop_toBottomOf="@id/tv_per_night"
-                aap:layout_constraintEnd_toEndOf="parent"
-                />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{hotel.location}"
-                android:textSize="14sp"
-                android:textColor="#242424"
-                aap:layout_constraintStart_toStartOf="@id/tv_hotel_name"
-                aap:layout_constraintTop_toTopOf="@id/iv_poster"
-                aap:layout_constraintBottom_toBottomOf="@id/iv_poster" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_review"
@@ -103,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_star_white"
                 android:drawableTint="#FED201"
-                android:text="5.0   (4,345 reviews)"
+                android:text="5.0"
                 android:textColor="@color/black"
                 android:textSize="13sp"
                 android:drawablePadding="4dp"

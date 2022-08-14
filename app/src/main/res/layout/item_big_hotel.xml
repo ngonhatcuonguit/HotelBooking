@@ -29,7 +29,8 @@
                 android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/background"
+                android:background="@drawable/background"
+                loadImageHotel="@{hotel}"
                 />
 
             <carbon.widget.TextView
@@ -43,7 +44,7 @@
                 android:drawablePadding="2dp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
-                android:text="@{hotel.vote_average.toString()}"
+                android:text="@{hotel.number_star.toString()}"
                 android:textColor="@color/white"
                 android:textSize="13sp"
                 app:carbon_cornerRadius="12dp"
@@ -57,7 +58,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="22dp"
                 android:gravity="center"
-                displayPrice="@{hotel.price}"
+                hotelPrice="@{hotel.price}"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -82,7 +83,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:gravity="center"
-                android:text="@{hotel.location}"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{hotel.city.desc}"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@id/tv_price"
