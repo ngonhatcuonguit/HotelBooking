@@ -110,11 +110,11 @@ class LoginActivity : AppBaseActivityMVVM<ActivityLoginBinding, UserViewModel>()
                     hideProgressDialog()
                     if (it.data?.result_code == 1){
                         hideProgressDialog()
-                        WTF("${it.data.data.access_token} -- ${it.data}")
+
                         AppPreferences.setUserAccessToken(it.data.data.access_token.toString())
                         AppPreferences.setNickName(it.data.data.user?.name.toString())
                         AppPreferences.setEmail(it.data.data.user?.email.toString())
-                        WTF("${AppPreferences.getUserAccessToken()}")
+
                         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     }else {
                         showDialog(title = "Chú ý", message = it.data?.result)

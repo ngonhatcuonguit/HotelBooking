@@ -20,6 +20,18 @@ class UserRepository(private val userRemoteDataSource: UserRemoteDataSource) {
             name, email, password, password_confirmation, nickname, phone, birthday, gender
         )
     }
+    suspend fun changeUserInfo(
+        name: String,
+        email: String,
+        nickname: String,
+        phone: String,
+        birthday: String,
+        gender: String
+    ): BaseResult<DataGetUser> {
+        return userRemoteDataSource.changeUserInfo(
+            name, email, nickname, phone, birthday, gender
+        )
+    }
 
     suspend fun login(
         email: String,

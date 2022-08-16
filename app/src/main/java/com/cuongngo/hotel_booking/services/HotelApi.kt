@@ -21,6 +21,17 @@ interface HotelApi {
     ): Response<AuthModel>
 
     @FormUrlEncoded
+    @POST("me/change-information")
+    suspend fun changeUserInfo(
+        @Field("name") name: String,
+        @Field("email") email: String,
+        @Field("nickname") nickname: String,
+        @Field("phone") phone: String,
+        @Field("birthday") birthday: String,
+        @Field("gender") gender: String
+    ): Response<DataGetUser>
+
+    @FormUrlEncoded
     @POST("auth/login")
     suspend fun login(
         @Field("email") email: String,

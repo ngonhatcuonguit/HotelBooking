@@ -20,6 +20,7 @@ import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.ActivitySignUpBinding
 import com.cuongngo.hotel_booking.ext.WTF
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
+import com.cuongngo.hotel_booking.local.AppPreferences
 import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.utils.*
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.ACTION
@@ -46,6 +47,12 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                 onBackPressed()
             }
 
+            if (action != SIGN_UP){
+                clPassword.visibility = View.GONE
+                clPasswordConfirm.visibility = View.GONE
+                viewModel.getUser()
+            }
+
             clDateOfBirth.setOnClickListener {
                 showDatePicker()
             }
@@ -60,6 +67,15 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                             email = edtEmail.text.toString(),
                             password = edtPassword.text.toString(),
                             password_confirmation = edtPasswordConfirm.text.toString(),
+                            nickname = edtNickname.text.toString(),
+                            phone = edtPhoneNumber.text.toString(),
+                            birthday = birthDay.toString(),
+                            gender = gender.toString()
+                        )
+                    }else {
+                        viewModel.changeInfo(
+                            name = edtFullName.text.toString(),
+                            email = edtEmail.text.toString(),
                             nickname = edtNickname.text.toString(),
                             phone = edtPhoneNumber.text.toString(),
                             birthday = birthDay.toString(),
@@ -212,6 +228,42 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
     }
 
     override fun setUpObserver() {
+
+        observeLiveDataChanged(viewModel.getUser){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    if (it.data?.result_code == 1){
+                        with(binding){
+                            edtEmail.setText("${it.data.data?.email}")
+                            edtFullName.setText("${it.data.data?.name}")
+                            edtNickname.setText("${it.data.data?.nickname}")
+                            edtPhoneNumber.setText("${it.data.data?.phone}")
+                            tvDateOfBirth.text = it.data.data?.birthday
+                            when(it.data.data?.gender){
+                                1 -> {
+                                    tvGender.text = "Nam"
+                                }
+                                2 -> {
+                                    tvGender.text = "Nữ"
+                                }
+                                3 -> {
+                                    tvGender.text = "Khác"
+                                }
+                            }
+                        }
+                    }else showDialog(title ="Chú ý", message = it.data?.result)
+                },
+                onError = {
+                    hideProgressDialog()
+                    showDialog(title ="Chú ý", message = it.data?.result)
+                }
+            )
+        }
+
         observeLiveDataChanged(viewModel.signUp){
             it.onResultReceived(
                 onLoading = {
@@ -230,7 +282,37 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                                 }
                             } )
                     }else {
-                        WTF("test loi ${it.data?.result}")
+                        showDialog(title ="Chú ý", message = it.data?.result)
+                    }
+                },
+                onError = {
+                    hideProgressDialog()
+                    showDialog(title ="Chú ý", message = it.data?.result)
+                }
+            )
+        }
+        observeLiveDataChanged(viewModel.changeInfo){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    if (it.data?.result_code == 1){
+
+                        AppPreferences.setNickName(it.data.data?.nickname.toString())
+                        AppPreferences.setEmail(it.data.data?.email.toString())
+
+                        showDialog(
+                            title = "Chú ý",
+                            message = "Bạn đã thay đổi thông tin thành công",
+                            isCancelAble = false,
+                            onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                override fun onClick(isPositiveClick: Boolean) {
+                                    finish()
+                                }
+                            } )
+                    }else {
                         showDialog(title ="Chú ý", message = it.data?.result)
                     }
                 },
@@ -351,9 +433,9 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
     private fun onChooseGender(gender: String){
         this.gender = gender
         when(gender){
-            "1" -> binding.tvGender.text = "Male"
-            "2" -> binding.tvGender.text = "Female"
-            "3" -> binding.tvGender.text = "Other"
+            "1" -> binding.tvGender.text = "Nam"
+            "2" -> binding.tvGender.text = "Nữ"
+            "3" -> binding.tvGender.text = "Khác"
         }
         refreshData()
     }
