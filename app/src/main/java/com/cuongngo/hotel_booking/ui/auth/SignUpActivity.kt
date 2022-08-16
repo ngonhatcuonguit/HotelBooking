@@ -18,6 +18,7 @@ import com.cuongngo.hotel_booking.base.activity.AppBaseActivityMVVM
 import com.cuongngo.hotel_booking.base.view.DialogUtils
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.ActivitySignUpBinding
+import com.cuongngo.hotel_booking.ext.WTF
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.utils.*
@@ -218,18 +219,24 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    showDialog(
-                        title = "Đăng kí thành công",
-                        message = "Bạn đã đăng kí tài khoản thành công, hãy đăng nhập để trải nghiệm Bolu ngay!",
-                        isCancelAble = false,
-                        onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
-                            override fun onClick(isPositiveClick: Boolean) {
-                                finish()
-                            }
-                        } )
+                    if (it.data?.result_code == 1){
+                        showDialog(
+                            title = "Đăng kí thành công",
+                            message = "Bạn đã đăng kí tài khoản thành công, hãy đăng nhập để trải nghiệm Bolu ngay!",
+                            isCancelAble = false,
+                            onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                override fun onClick(isPositiveClick: Boolean) {
+                                    finish()
+                                }
+                            } )
+                    }else {
+                        WTF("test loi ${it.data?.result}")
+                        showDialog(title ="Chú ý", message = it.data?.result)
+                    }
                 },
                 onError = {
-                    showDialog(title ="Chú ý", message = it.data?.result.toString() )
+                    hideProgressDialog()
+                    showDialog(title ="Chú ý", message = it.data?.result)
                 }
             )
         }

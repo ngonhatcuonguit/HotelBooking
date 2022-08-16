@@ -18,20 +18,20 @@ interface HotelApi {
         @Field("phone") phone: String,
         @Field("birthday") birthday: String,
         @Field("gender") gender: String
-    ): Response<BaseResponse<AuthModel>>
+    ): Response<AuthModel>
 
     @FormUrlEncoded
     @POST("auth/login")
     suspend fun login(
         @Field("email") email: String,
         @Field("password") password: String
-    ): Response<BaseResponse<UserResponse>>
+    ): Response<UserResponse>
 
     @POST("me/logout")
     suspend fun logout(): Response<BaseModelResponse>
 
     @GET("me/information")
-    suspend fun getUser(): Response<BaseResponse<UserModel>>
+    suspend fun getUser(): Response<DataGetUser>
 
     @GET("home/index")
     suspend fun getListHotel(

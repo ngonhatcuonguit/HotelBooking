@@ -13,17 +13,17 @@ import kotlinx.coroutines.withContext
 
 class UserViewModel(private val userRepository: UserRepository) : BaseViewModel() {
 
-    private var _signUp = MutableLiveData<BaseResult<BaseResponse<AuthModel>>>()
-    val signUp: LiveData<BaseResult<BaseResponse<AuthModel>>> = _signUp
+    private var _signUp = MutableLiveData<BaseResult<AuthModel>>()
+    val signUp: LiveData<BaseResult<AuthModel>> = _signUp
 
-    private var _login = MutableLiveData<BaseResult<BaseResponse<UserResponse>>>()
-    val login: LiveData<BaseResult<BaseResponse<UserResponse>>> = _login
+    private var _login = MutableLiveData<BaseResult<UserResponse>>()
+    val login: LiveData<BaseResult<UserResponse>> = _login
 
     private var _logout = MutableLiveData<BaseResult<BaseModelResponse>>()
     val logout: LiveData<BaseResult<BaseModelResponse>> = _logout
 
-    private var _getUser = MutableLiveData<BaseResult<BaseResponse<UserModel>>>()
-    val getUser: LiveData<BaseResult<BaseResponse<UserModel>>> = _getUser
+    private var _getUser = MutableLiveData<BaseResult<DataGetUser>>()
+    val getUser: LiveData<BaseResult<DataGetUser>> = _getUser
 
     fun signUp(
         name: String,

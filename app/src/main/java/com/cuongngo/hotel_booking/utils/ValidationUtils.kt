@@ -7,7 +7,7 @@ import com.google.i18n.phonenumbers.Phonenumber
 import java.util.*
 
 fun validateFullNameLength(name: String): Boolean {
-    if(name.length<8 || name.length>64) return false
+    if(name.length<6 || name.length>64) return false
     return true
 }
 

@@ -15,7 +15,7 @@ class UserRepository(private val userRemoteDataSource: UserRemoteDataSource) {
         phone: String,
         birthday: String,
         gender: String
-    ): BaseResult<BaseResponse<AuthModel>> {
+    ): BaseResult<AuthModel> {
         return userRemoteDataSource.signUp(
             name, email, password, password_confirmation, nickname, phone, birthday, gender
         )
@@ -24,14 +24,14 @@ class UserRepository(private val userRemoteDataSource: UserRemoteDataSource) {
     suspend fun login(
         email: String,
         password: String
-    ): BaseResult<BaseResponse<UserResponse>> {
+    ): BaseResult<UserResponse> {
         return userRemoteDataSource.login(email, password)
     }
 
     suspend fun logout() : BaseResult<BaseModelResponse> {
         return userRemoteDataSource.logout()
     }
-    suspend fun getUser() : BaseResult<BaseResponse<UserModel>> {
+    suspend fun getUser() : BaseResult<DataGetUser> {
         return userRemoteDataSource.getUser()
     }
 

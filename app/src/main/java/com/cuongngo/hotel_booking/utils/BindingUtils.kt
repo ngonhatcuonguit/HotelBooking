@@ -12,7 +12,9 @@ import com.cuongngo.hotel_booking.response.HotelModel
 fun loadImage(view: ImageView, url: String?) {
     Glide.with(view)
         .load(url)
+        .placeholder(MyDrawableCompat.createProgressDrawable(view.context))
         .apply(RequestOptions.centerCropTransform())
+        .error(R.drawable.avatar)
         .into((view))
 }
 

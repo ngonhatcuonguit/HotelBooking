@@ -12,6 +12,7 @@ object AppPreferences {
     const val REFERENCES_NAME = "AppPreferences"
     const val KEY_USER_ACCESS_TOKEN = "USER_ACCESS_TOKEN"
     const val KEY_NICK_NAME = "key_nick_name"
+    const val KEY_EMAIL = "key_email"
 
     init {
         preferences = App.getInstance().getSharedPreferences(REFERENCES_NAME, Context.MODE_PRIVATE)
@@ -35,6 +36,16 @@ object AppPreferences {
     fun setNickName(nickName: String){
         editor.also {
             it.putString(KEY_NICK_NAME, nickName)
+            it.commit()
+        }
+    }
+
+    fun getEmail():String{
+        return preferences.getString(KEY_EMAIL, "") ?: ""
+    }
+    fun setEmail(email: String){
+        editor.also {
+            it.putString(KEY_EMAIL, email)
             it.commit()
         }
     }

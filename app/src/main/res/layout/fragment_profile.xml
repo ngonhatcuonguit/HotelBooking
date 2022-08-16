@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="user"
+            type="com.cuongngo.hotel_booking.response.UserModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,6 +42,7 @@
             android:layout_height="113dp"
             android:layout_marginTop="@dimen/_20dp"
             android:background="@drawable/avatar"
+            loadImage="@{user.avatar}"
             app:civ_border_color="@color/white"
             app:civ_border_width="1dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,6 +65,8 @@
             android:layout_marginTop="14dp"
             android:gravity="center"
             android:text="Kezia Ajibastin"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"

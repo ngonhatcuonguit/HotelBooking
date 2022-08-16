@@ -4,6 +4,7 @@ data class HotelResponse(
     var success: String?,
     var result_code: Int?,
     var result: String?,
+    var cursors: Cursor?,
     var data: HotelData?
 )
 

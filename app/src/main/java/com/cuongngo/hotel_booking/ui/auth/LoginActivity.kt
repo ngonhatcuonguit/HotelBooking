@@ -10,6 +10,7 @@ import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.AppBaseActivityMVVM
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.ActivityLoginBinding
+import com.cuongngo.hotel_booking.ext.WTF
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.local.AppPreferences
 import com.cuongngo.hotel_booking.services.network.onResultReceived
@@ -97,7 +98,6 @@ class LoginActivity : AppBaseActivityMVVM<ActivityLoginBinding, UserViewModel>()
 
         }
 
-
     }
 
     override fun setUpObserver() {
@@ -108,11 +108,20 @@ class LoginActivity : AppBaseActivityMVVM<ActivityLoginBinding, UserViewModel>()
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    AppPreferences.setUserAccessToken(it.data?.data?.access_token.toString())
-                    AppPreferences.setNickName(it.data?.data?.user?.name.toString())
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    if (it.data?.result_code == 1){
+                        hideProgressDialog()
+                        WTF("${it.data.data.access_token} -- ${it.data}")
+                        AppPreferences.setUserAccessToken(it.data.data.access_token.toString())
+                        AppPreferences.setNickName(it.data.data.user?.name.toString())
+                        AppPreferences.setEmail(it.data.data.user?.email.toString())
+                        WTF("${AppPreferences.getUserAccessToken()}")
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    }else {
+                        showDialog(title = "Chú ý", message = it.data?.result)
+                    }
                 },
                 onError = {
+                    hideProgressDialog()
                     showDialog(title = "Chú ý", message = it.data?.result)
                 }
             )

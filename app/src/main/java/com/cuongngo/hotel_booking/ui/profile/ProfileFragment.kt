@@ -11,6 +11,7 @@ import com.cuongngo.hotel_booking.databinding.FragmentProfileBinding
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.local.AppPreferences
 import com.cuongngo.hotel_booking.services.network.onResultReceived
+import com.cuongngo.hotel_booking.ui.auth.LoginActivity
 import com.cuongngo.hotel_booking.ui.auth.SignUpActivity
 import com.cuongngo.hotel_booking.ui.auth.UserViewModel
 
@@ -21,16 +22,31 @@ class ProfileFragment : BaseFragmentMVVM<FragmentProfileBinding, UserViewModel>(
     override fun inflateLayout() = R.layout.fragment_profile
 
     override fun setUp() {
+        viewModel.getUser()
         with(binding){
+            if (AppPreferences.getUserAccessToken().isNullOrEmpty()){
+                tvName.text = "Login to booking now"
+                email.text = "example1123@gmail.com"
+                tvName.setOnClickListener {
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                }
+            }else {
+                tvName.text = AppPreferences.getNickName()
+                email.text = AppPreferences.getEmail()
+            }
             tvEditProfile.setOnClickListener {
                 startActivity(Intent(context, SignUpActivity::class.java).apply {
                     putExtra(ACTION, EDIT_PROFILE)
                 })
             }
+
+            ivEditAvatar.setOnClickListener {
+
+            }
+
             tvLogout.setOnClickListener {
                 LogoutBottomSheetFragment(this@ProfileFragment).show(childFragmentManager, LogoutBottomSheetFragment.TAG)
             }
-
         }
     }
 
@@ -46,9 +62,31 @@ class ProfileFragment : BaseFragmentMVVM<FragmentProfileBinding, UserViewModel>(
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    AppPreferences.setNickName("")
-                    AppPreferences.setUserAccessToken("")
-                    showDialog("Chú ý", message = "Bạn đã logout thành công")
+                    if (it.data?.result_code == 1){
+                        AppPreferences.setNickName("")
+                        AppPreferences.setEmail("")
+                        AppPreferences.setUserAccessToken("")
+                        showDialog("Chú ý", message = "Bạn đã logout thành công")
+                    }else {
+                        showDialog("Chú ý", message = it.data?.result)
+                    }
+                },
+                onError = {
+                    showDialog("Chú ý", message = it.data?.result)
+                }
+            )
+        }
+
+        observeLiveDataChanged(viewModel.getUser){
+            it.onResultReceived(
+                onLoading = { },
+                onSuccess = {
+                    if (it.data?.result_code == 1){
+                        binding.tvName.text = it.data.data?.nickname
+                        binding.email.text = it.data.data?.email
+                    }else {
+                        showDialog("Chú ý", message = it.data?.result)
+                    }
                 },
                 onError = {
                     showDialog("Chú ý", message = it.data?.result)
