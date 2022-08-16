@@ -22,7 +22,6 @@ class ProfileFragment : BaseFragmentMVVM<FragmentProfileBinding, UserViewModel>(
     override fun inflateLayout() = R.layout.fragment_profile
 
     override fun setUp() {
-        viewModel.getUser()
         with(binding){
             if (AppPreferences.getUserAccessToken().isNullOrEmpty()){
                 tvName.text = "Login to booking now"

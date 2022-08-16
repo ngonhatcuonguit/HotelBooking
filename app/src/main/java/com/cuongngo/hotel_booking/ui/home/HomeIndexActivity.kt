@@ -52,7 +52,7 @@ class HomeIndexActivity : AppBaseActivityMVVM<ActivityHomeIndexBinding, HomeView
     }
 
     override fun onHotelSelectedListener(hotelModel: HotelModel) {
-        startActivity(Intent(this, HotelDetailActivity::class.java))
+        startActivity(HotelDetailActivity.newIntent(this,hotelModel.id))
     }
 
     override fun setUpObserver() {

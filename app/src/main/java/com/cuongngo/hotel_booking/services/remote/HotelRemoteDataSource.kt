@@ -5,7 +5,6 @@ import com.cuongngo.hotel_booking.services.network.BaseRemoteDataSource
 
 class HotelRemoteDataSource(private val apiService: HotelApi) : BaseRemoteDataSource() {
 
-
     suspend fun getListHotel(
         filtering: String? = null,
         city_id: String? = null,
@@ -15,4 +14,11 @@ class HotelRemoteDataSource(private val apiService: HotelApi) : BaseRemoteDataSo
     ) = getResult {
         apiService.getListHotel(filtering, city_id, count, after, name)
     }
+
+    suspend fun getDetailHotel(
+        hotel_id: Int
+    ) = getResult {
+        apiService.getDetailHotel(hotel_id)
+    }
+
 }

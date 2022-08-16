@@ -6,11 +6,10 @@ data class HotelResponse(
     var result: String?,
     var cursors: Cursor?,
     var data: HotelData?
-)
+): BaseModel()
 
 data class HotelModel(
     val id: Int?,
-    var vote_average: Float?,
     var name: String?,
     var location: String?,
     var price: Long?,
@@ -32,7 +31,9 @@ data class HotelModel(
     var ward: City?,
     var images: List<Image>?,
     var view: Long?,
-    var number_star: Float?
+    var number_star: Float?,
+    var hotel_facility: HotelFacility?,
+    var hotel_detail: HotelDetail?
 ): BaseModel()
 
 data class City(
@@ -60,3 +61,39 @@ data class Image(
 data class HotelData(
     var hotels: List<HotelModel>?
 )
+
+data class HotelDetailResponse(
+    var success: String?,
+    var result_code: Int?,
+    var result: String?,
+    var cursors: Cursor?,
+    var data: HotelModel?
+): BaseModel()
+
+data class HotelFacility(
+    var id: Int?,
+    var hotel_id: Int?,
+    var have_swimming: Int?,
+    var have_wifi: Int?,
+    var have_restaurant: Int?,
+    var have_parking: Int?,
+    var have_meeting_room: Int?,
+    var have_elevator: Int?,
+    var have_fitness_center: Int?,
+    var have_open: Int?,
+    var created_at: String?,
+    var updated_at: String?
+):BaseModel()
+
+data class HotelDetail(
+    var id: Int?,
+    var hotel_id: Int?,
+    var four_bedrooms: Int?,
+    var one_bedrooms: Int?,
+    var two_bedrooms: Int?,
+    var is_hotel: Int?,
+    var two_Bathrooms: Int?,
+    var sqft: Int?,
+    var created_at: String?,
+    var updated_at: String?
+) : BaseModel()

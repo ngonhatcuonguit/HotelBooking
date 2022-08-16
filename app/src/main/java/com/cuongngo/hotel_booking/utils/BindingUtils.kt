@@ -1,5 +1,7 @@
 package com.cuongngo.hotel_booking.utils
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -34,6 +36,26 @@ fun setHotelPrice(view: TextView, price: Long?) {
         view.text = view.context.resources.getString(R.string.hotel_price, it.formatToPrice())
     }
 }
+@BindingAdapter("showDetailFacility")
+fun showDetailFacility(view: ImageView, status: Int) {
+    if (status == 2){
+        view.setColorFilter(Color.parseColor("#7D7D7D"))
+    }
+}
+
+@BindingAdapter("textColorState")
+fun textColorState(view: TextView, status: Int) {
+    if (status == 2) {
+        view.setTextColor(Color.parseColor("#7D7D7D"))
+    }else {
+        view.setTextColor(Color.parseColor("#000000"))
+    }
+}
+
+@BindingAdapter("showSqft")
+fun showSqft(view: TextView, sqft: Int) {
+    view.text = sqft.toString() + "sqft"
+}
 
 @BindingAdapter("loadImageHotel")
 fun loadImageHotel(view: ImageView, hotelModel: HotelModel) {
@@ -47,8 +69,8 @@ fun loadImageHotel(view: ImageView, hotelModel: HotelModel) {
 }
 
 @BindingAdapter("showLocation")
-fun showLocation(view: TextView, hotelModel: HotelModel){
-    val location = "${hotelModel.ward?.name.toString()} + ${hotelModel.district?.name.toString()} + ${hotelModel.city?.desc.toString()}"
+fun showLocation(view: TextView, hotelModel: HotelModel?){
+    val location = "${hotelModel?.ward?.name.toString()}, ${hotelModel?.district?.name.orEmpty()}, ${hotelModel?.city?.desc.toString()}"
     view.text = location
 }
 

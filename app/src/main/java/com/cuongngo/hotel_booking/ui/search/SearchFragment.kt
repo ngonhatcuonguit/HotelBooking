@@ -98,7 +98,7 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding,HomeViewModel>(), 
     }
 
     override fun onHotelSelectedListener(hotelModel: HotelModel) {
-        startActivity(Intent(context, HotelDetailActivity::class.java))
+        startActivity(HotelDetailActivity.newIntent(requireContext(),hotelModel.id))
     }
 
 

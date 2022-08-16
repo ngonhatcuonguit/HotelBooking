@@ -117,7 +117,7 @@ class HomeFragment : BaseFragmentMVVM<FragmentHomeBinding, HomeViewModel>(), Cat
 
 
     override fun onBigHotelSelectedListener(hotelModel: HotelModel) {
-            startActivity(Intent(context, HotelDetailActivity::class.java))
+            startActivity(HotelDetailActivity.newIntent(requireContext(),hotelModel.id))
     }
 
 

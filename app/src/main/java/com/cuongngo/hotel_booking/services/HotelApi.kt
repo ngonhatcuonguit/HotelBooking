@@ -42,6 +42,11 @@ interface HotelApi {
         @Query("name") name: String? = null
     ): Response<HotelResponse>
 
+    @GET("hotel/{hotel_id}")
+    suspend fun getDetailHotel(
+        @Path("hotel_id") hotel_id: Int
+    ): Response<HotelDetailResponse>
+
     companion object {
         operator fun invoke(): HotelApi {
             return ApiClientFactory.createService()

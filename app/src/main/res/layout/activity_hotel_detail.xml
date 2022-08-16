@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="hotel"
+            type="com.cuongngo.hotel_booking.response.HotelModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,8 +20,7 @@
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/cl_bottom"
-            >
+            app:layout_constraintBottom_toTopOf="@id/cl_bottom">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -25,11 +31,11 @@
                     android:id="@+id/iv_poster"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:scaleType="fitXY"
+                    android:background="@color/color_primary"
+                    android:scaleType="fitCenter"
                     app:layout_constraintDimensionRatio="390:283"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/background_detail" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_name"
@@ -39,7 +45,7 @@
                     android:layout_marginTop="14dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Presidential Hotel"
+                    android:text="@{hotel.name}"
                     android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold"
@@ -59,7 +65,7 @@
                     android:ellipsize="end"
                     android:gravity="left"
                     android:maxLines="2"
-                    android:text="12 Eze Adele Road Rumuomasi Lagos Nigeria"
+                    showLocation="@{hotel}"
                     android:textColor="#202020"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,6 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="35dp"
+                    showDetailFacility="@{hotel.hotel_detail.four_bedrooms}"
                     app:layout_constraintBottom_toBottomOf="@id/iv_bath_room"
                     app:layout_constraintEnd_toStartOf="@id/guideLine1"
                     app:layout_constraintTop_toTopOf="@id/iv_bath_room"
@@ -147,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="16dp"
+                    showDetailFacility="@{hotel.hotel_detail.two_Bathrooms}"
                     app:layout_constraintStart_toEndOf="@id/guideLine1"
                     app:layout_constraintTop_toBottomOf="@id/tv_detail_title"
                     app:srcCompat="@drawable/ic_bxs_bath" />
@@ -156,6 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="70dp"
+                    showDetailFacility="@{hotel.hotel_detail.is_hotel}"
                     app:layout_constraintBottom_toBottomOf="@id/iv_bed_room"
                     app:layout_constraintEnd_toStartOf="@id/iv_bed_room"
                     app:layout_constraintTop_toTopOf="@id/iv_bed_room"
@@ -179,6 +188,7 @@
                     android:text="Hotels"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_detail.is_hotel}"
                     app:layout_constraintEnd_toEndOf="@id/iv_hotel"
                     app:layout_constraintStart_toStartOf="@id/iv_hotel"
                     app:layout_constraintTop_toBottomOf="@id/iv_hotel" />
@@ -191,6 +201,7 @@
                     android:text="4 Bedrooms"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_detail.four_bedrooms}"
                     app:layout_constraintEnd_toEndOf="@id/iv_bed_room"
                     app:layout_constraintStart_toStartOf="@id/iv_bed_room"
                     app:layout_constraintTop_toBottomOf="@id/iv_bed_room" />
@@ -203,6 +214,7 @@
                     android:text="2 Bathrooms"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_detail.two_Bathrooms}"
                     app:layout_constraintEnd_toEndOf="@id/iv_bath_room"
                     app:layout_constraintStart_toStartOf="@id/iv_bath_room"
                     app:layout_constraintTop_toBottomOf="@id/iv_bath_room" />
@@ -212,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="3000 sqft"
+                    showSqft="@{hotel.hotel_detail.sqft}"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="@id/iv_area"
@@ -239,7 +251,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_20dp"
                     android:layout_marginTop="4dp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt aliqua"
+                    android:text="@{hotel.description}"
                     android:textColor="#616161"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -264,6 +276,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    showDetailFacility="@{hotel.hotel_facility.have_swimming}"
                     app:layout_constraintEnd_toEndOf="@id/iv_hotel"
                     app:layout_constraintStart_toStartOf="@id/iv_hotel"
                     app:layout_constraintTop_toBottomOf="@id/tv_facilities"
@@ -275,6 +288,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Swimming Pool"
+                    textColorState="@{hotel.hotel_facility.have_swimming}"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="@id/iv_swim"
@@ -285,6 +299,7 @@
                     android:id="@+id/iv_wifi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showDetailFacility="@{hotel.hotel_facility.have_wifi}"
                     app:layout_constraintEnd_toEndOf="@id/iv_bed_room"
                     app:layout_constraintStart_toStartOf="@id/iv_bed_room"
                     app:layout_constraintBottom_toBottomOf="@id/iv_swim"
@@ -298,6 +313,7 @@
                     android:text="WiFi"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_facility.have_wifi}"
                     app:layout_constraintEnd_toEndOf="@id/iv_wifi"
                     app:layout_constraintStart_toStartOf="@id/iv_wifi"
                     app:layout_constraintTop_toBottomOf="@id/iv_wifi" />
@@ -306,6 +322,7 @@
                     android:id="@+id/iv_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showDetailFacility="@{hotel.hotel_facility.have_restaurant}"
                     app:layout_constraintEnd_toEndOf="@id/iv_bath_room"
                     app:layout_constraintStart_toStartOf="@id/iv_bath_room"
                     app:layout_constraintBottom_toBottomOf="@id/iv_swim"
@@ -319,6 +336,7 @@
                     android:text="Restaurant"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_facility.have_restaurant}"
                     app:layout_constraintEnd_toEndOf="@id/iv_menu"
                     app:layout_constraintStart_toStartOf="@id/iv_menu"
                     app:layout_constraintTop_toBottomOf="@id/iv_menu" />
@@ -327,6 +345,7 @@
                     android:id="@+id/iv_parking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showDetailFacility="@{hotel.hotel_facility.have_parking}"
                     app:layout_constraintEnd_toEndOf="@id/iv_area"
                     app:layout_constraintStart_toStartOf="@id/iv_area"
                     app:layout_constraintBottom_toBottomOf="@id/iv_swim"
@@ -340,6 +359,7 @@
                     android:text="Parking"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_facility.have_parking}"
                     app:layout_constraintEnd_toEndOf="@id/iv_parking"
                     app:layout_constraintStart_toStartOf="@id/iv_parking"
                     app:layout_constraintTop_toBottomOf="@id/iv_parking" />
@@ -349,6 +369,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
+                    showDetailFacility="@{hotel.hotel_facility.have_meeting_room}"
                     app:layout_constraintEnd_toEndOf="@id/iv_swim"
                     app:layout_constraintStart_toStartOf="@id/iv_swim"
                     app:layout_constraintTop_toBottomOf="@id/tv_swim"
@@ -362,6 +383,7 @@
                     android:text="Meeting Room"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_facility.have_meeting_room}"
                     app:layout_constraintEnd_toEndOf="@id/iv_meeting_room"
                     app:layout_constraintStart_toStartOf="@id/iv_meeting_room"
                     app:layout_constraintTop_toBottomOf="@id/iv_meeting_room" />
@@ -370,6 +392,7 @@
                     android:id="@+id/iv_elevator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showDetailFacility="@{hotel.hotel_facility.have_elevator}"
                     app:layout_constraintEnd_toEndOf="@id/iv_wifi"
                     app:layout_constraintStart_toStartOf="@id/iv_wifi"
                     app:layout_constraintBottom_toBottomOf="@id/iv_meeting_room"
@@ -383,6 +406,7 @@
                     android:text="Elevator"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_facility.have_elevator}"
                     app:layout_constraintEnd_toEndOf="@id/iv_elevator"
                     app:layout_constraintStart_toStartOf="@id/iv_elevator"
                     app:layout_constraintTop_toBottomOf="@id/iv_elevator" />
@@ -391,6 +415,7 @@
                     android:id="@+id/iv_gym"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showDetailFacility="@{hotel.hotel_facility.have_fitness_center}"
                     app:layout_constraintEnd_toEndOf="@id/iv_menu"
                     app:layout_constraintStart_toStartOf="@id/iv_menu"
                     app:layout_constraintBottom_toBottomOf="@id/iv_meeting_room"
@@ -404,6 +429,7 @@
                     android:text="Fitness Center"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    textColorState="@{hotel.hotel_facility.have_fitness_center}"
                     app:layout_constraintEnd_toEndOf="@id/iv_gym"
                     app:layout_constraintStart_toStartOf="@id/iv_gym"
                     app:layout_constraintTop_toBottomOf="@id/iv_gym" />
@@ -412,6 +438,7 @@
                     android:id="@+id/iv_24h"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    showDetailFacility="@{hotel.hotel_facility.have_open}"
                     app:layout_constraintEnd_toEndOf="@id/iv_parking"
                     app:layout_constraintStart_toStartOf="@id/iv_parking"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_meeting_room"
@@ -512,7 +539,7 @@
                 android:id="@+id/btn_book_now"
                 android:layout_width="0dp"
                 android:layout_height="53dp"
-                app:layout_constraintWidth_percent="0.6"
+                app:layout_constraintWidth_percent="0.5"
                 app:carbon_cornerRadius="20dp"
                 android:background="#1AB65C"
                 android:text="Book Now!"
@@ -530,7 +557,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="$205"
+                hotelPrice="@{hotel.price}"
                 android:textColor="#1AB65C"
                 android:textSize="22sp"
                 android:textStyle="bold"

@@ -10,6 +10,7 @@ import com.cuongngo.hotel_booking.services.repository.HotelRepository
 import com.cuongngo.hotel_booking.services.repository.UserRepository
 import com.cuongngo.hotel_booking.ui.auth.UserViewModel
 import com.cuongngo.hotel_booking.ui.home.HomeViewModel
+import com.cuongngo.hotel_booking.ui.hoteldetail.HotelDetailViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -35,6 +36,10 @@ val appModule = Kodein.Module(APP_MODULE, false) {
 
     bindViewModel<HomeViewModel>() with provider {
         HomeViewModel(instance())
+    }
+
+    bindViewModel<HotelDetailViewModel>() with provider {
+        HotelDetailViewModel(instance())
     }
 
 }
