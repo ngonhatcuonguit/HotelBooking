@@ -97,3 +97,11 @@ data class HotelDetail(
     var created_at: String?,
     var updated_at: String?
 ) : BaseModel()
+
+data class SetUpBeforeBookingModel(
+    var guest: Int? = null,
+    var check_in: String? = null,
+    var check_out: String? = null,
+    var hotel_id: Int? = null,
+    var hotelModel: HotelModel? = null
+): BaseModel()

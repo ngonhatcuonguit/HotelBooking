@@ -52,6 +52,7 @@
         <activity
             android:name=".ui.booking.BookingActivity"
             android:exported="true"
+            android:theme="@style/MaterialTheme"
             tools:ignore="LockedOrientationActivity" />
 
     </application>

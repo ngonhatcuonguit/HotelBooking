@@ -58,6 +58,16 @@ interface HotelApi {
         @Path("hotel_id") hotel_id: Int
     ): Response<HotelDetailResponse>
 
+    @FormUrlEncoded
+    @POST("booking/hotel")
+    suspend fun booking(
+        @Field("guest") guest: Int,
+        @Field("check_in") check_in: String,
+        @Field("check_out") check_out: String,
+        @Field("hotel_id") hotel_id: Int,
+        @Field("payment_id") payment_id: Int = 1
+    ): Response<BaseModelResponse>
+
     companion object {
         operator fun invoke(): HotelApi {
             return ApiClientFactory.createService()

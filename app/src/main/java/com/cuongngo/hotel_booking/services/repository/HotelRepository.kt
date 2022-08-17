@@ -1,5 +1,6 @@
 package com.cuongngo.hotel_booking.services.repository
 
+import com.cuongngo.hotel_booking.response.BaseModelResponse
 import com.cuongngo.hotel_booking.response.HotelDetailResponse
 import com.cuongngo.hotel_booking.response.HotelResponse
 import com.cuongngo.hotel_booking.services.network.BaseResult
@@ -21,6 +22,15 @@ class HotelRepository(private val hotelRemoteDataSource: HotelRemoteDataSource) 
         hotel_id: Int
     ): BaseResult<HotelDetailResponse> {
         return hotelRemoteDataSource.getDetailHotel(hotel_id)
+    }
+
+    suspend fun booking(
+        guest: Int,
+        check_in: String,
+        check_out: String,
+        hotel_id: Int
+    ): BaseResult<BaseModelResponse> {
+        return hotelRemoteDataSource.booking(guest, check_in, check_out, hotel_id)
     }
 
 }

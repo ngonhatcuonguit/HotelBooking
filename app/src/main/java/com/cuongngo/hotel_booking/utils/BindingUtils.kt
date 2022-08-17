@@ -1,7 +1,6 @@
 package com.cuongngo.hotel_booking.utils
 
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -58,8 +57,8 @@ fun showSqft(view: TextView, sqft: Int) {
 }
 
 @BindingAdapter("loadImageHotel")
-fun loadImageHotel(view: ImageView, hotelModel: HotelModel) {
-    val url = hotelModel.images?.firstOrNull()?.medium.orEmpty()
+fun loadImageHotel(view: ImageView, hotelModel: HotelModel?) {
+    val url = hotelModel?.images?.firstOrNull()?.medium.orEmpty()
     Glide.with(view)
         .load(url)
         .placeholder(MyDrawableCompat.createProgressDrawable(view.context))

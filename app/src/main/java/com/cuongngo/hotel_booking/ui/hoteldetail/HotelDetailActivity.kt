@@ -8,9 +8,11 @@ import com.cuongngo.hotel_booking.base.activity.AppBaseActivityMVVM
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.ActivityHotelDetailBinding
+import com.cuongngo.hotel_booking.ext.WTF
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.local.AppPreferences
 import com.cuongngo.hotel_booking.response.GalleryModel
+import com.cuongngo.hotel_booking.response.HotelModel
 import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.auth.LoginActivity
 import com.cuongngo.hotel_booking.ui.booking.BookingActivity
@@ -25,6 +27,8 @@ class HotelDetailActivity : AppBaseActivityMVVM<ActivityHotelDetailBinding, Hote
     private val hotelID by lazy {
         intent.extras?.getInt(HOTEL_ID_KEY)
     }
+
+    private var hotelModel: HotelModel? = null
 
     override fun inflateLayout() = R.layout.activity_hotel_detail
 
@@ -44,7 +48,9 @@ class HotelDetailActivity : AppBaseActivityMVVM<ActivityHotelDetailBinding, Hote
             btnBookNow.setOnClickListener {
                 if (AppPreferences.getUserAccessToken().isNullOrEmpty()){
                     startActivity(Intent(this@HotelDetailActivity, LoginActivity::class.java))
-                }else startActivity(Intent(this@HotelDetailActivity, BookingActivity::class.java))
+                }else{
+                    startActivity(BookingActivity.newIntent(this@HotelDetailActivity , hotelModel ?: return@setOnClickListener))
+                }
             }
         }
         setupRcvGallery()
@@ -67,6 +73,7 @@ class HotelDetailActivity : AppBaseActivityMVVM<ActivityHotelDetailBinding, Hote
                     hideProgressDialog()
                     if (it.data?.result_code == 1){
                         binding.hotel = it.data.data
+                        hotelModel = it.data.data
                         loadImage(binding.ivPoster, it.data.data?.images?.firstOrNull()?.medium.orEmpty())
                         galleryAdapter.submitListGallery(it.data.data?.images.orEmpty())
                     }else{

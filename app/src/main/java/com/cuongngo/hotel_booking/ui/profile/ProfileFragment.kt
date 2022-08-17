@@ -39,8 +39,8 @@ class ProfileFragment : BaseFragmentMVVM<FragmentProfileBinding, UserViewModel>(
                 })
             }
 
-            ivEditAvatar.setOnClickListener {
-
+            imgAvatar.setOnClickListener {
+                startActivity(Intent(context,LoginActivity::class.java))
             }
 
             tvLogout.setOnClickListener {
