@@ -3,18 +3,17 @@ package com.cuongngo.hotel_booking.ui.booking
 import android.content.Intent
 import androidx.core.os.bundleOf
 import com.cuongngo.hotel_booking.R
-import com.cuongngo.hotel_booking.base.fragment.BaseFragment
 import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
 import com.cuongngo.hotel_booking.base.view.DialogUtils
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModelFromActivity
 import com.cuongngo.hotel_booking.databinding.FragmentPaymentBinding
 import com.cuongngo.hotel_booking.ext.WTF
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
-import com.cuongngo.hotel_booking.response.HotelModel
 import com.cuongngo.hotel_booking.response.SetUpBeforeBookingModel
 import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.auth.LoginActivity
 import com.cuongngo.hotel_booking.utils.convertDateTimeForParamApi
+import com.cuongngo.hotel_booking.utils.formatToPrice
 
 class PaymentFragment : BaseFragmentMVVM<FragmentPaymentBinding, BookingViewModel>() {
 
@@ -31,33 +30,45 @@ class PaymentFragment : BaseFragmentMVVM<FragmentPaymentBinding, BookingViewMode
 
         viewModel.setUpBeforeBookingModel = beforeBookingModel!!
 
+        binding.bookingSetup = viewModel.setUpBeforeBookingModel
+
+        val total = viewModel.setUpBeforeBookingModel.hotelModel?.price?.times(
+            viewModel.setUpBeforeBookingModel.guest ?: 1
+        )
+        binding.totalPrice.text = total?.formatToPrice() + "đ"
+
+        binding.tvTotal.text = total?.formatToPrice() + "đ"
+
         binding.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }
         binding.layoutHotelItem.hotel = viewModel.setUpBeforeBookingModel.hotelModel
-        binding.btnContinue.setOnClickListener{
+        binding.btnContinue.setOnClickListener {
             viewModel.booking(
                 viewModel.setUpBeforeBookingModel.guest ?: return@setOnClickListener,
                 convertDateTimeForParamApi(viewModel.setUpBeforeBookingModel.check_in.orEmpty()),
                 convertDateTimeForParamApi(viewModel.setUpBeforeBookingModel.check_out.orEmpty()),
-                viewModel.setUpBeforeBookingModel.hotel_id ?:return@setOnClickListener,
+                viewModel.setUpBeforeBookingModel.hotel_id ?: return@setOnClickListener,
             )
         }
     }
 
     override fun setUpObserver() {
-        observeLiveDataChanged(viewModel.booking){
+        observeLiveDataChanged(viewModel.booking) {
             it.onResultReceived(
                 onLoading = {
                     showProgressDialog()
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    when(it.data?.result_code){
+                    when (it.data?.result_code) {
                         1 -> {
-                            SuccessDialogFragment().show(childFragmentManager, SuccessDialogFragment.TAG)
+                            SuccessDialogFragment().show(
+                                childFragmentManager,
+                                SuccessDialogFragment.TAG
+                            )
                         }
-                        300,301,302 -> {
+                        300, 301, 302 -> {
 
                             showDialog(
                                 title = "Chú ý",
@@ -65,9 +76,14 @@ class PaymentFragment : BaseFragmentMVVM<FragmentPaymentBinding, BookingViewMode
                                 isCancelAble = false,
                                 onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
                                     override fun onClick(isPositiveClick: Boolean) {
-                                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                                        startActivity(
+                                            Intent(
+                                                requireContext(),
+                                                LoginActivity::class.java
+                                            )
+                                        )
                                     }
-                                } )
+                                })
                         }
                         else -> {
                             showDialog(title = "Chú ý", message = it.data?.result)

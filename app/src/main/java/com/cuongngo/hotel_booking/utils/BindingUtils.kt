@@ -15,7 +15,7 @@ fun loadImage(view: ImageView, url: String?) {
         .load(url)
         .placeholder(MyDrawableCompat.createProgressDrawable(view.context))
         .apply(RequestOptions.centerCropTransform())
-        .error(R.drawable.avatar)
+        .error(R.drawable.background)
         .into((view))
 }
 
@@ -54,6 +54,11 @@ fun textColorState(view: TextView, status: Int) {
 @BindingAdapter("showSqft")
 fun showSqft(view: TextView, sqft: Int) {
     view.text = sqft.toString() + "sqft"
+}
+
+@BindingAdapter("showGuest")
+fun showGuest(view: TextView, gest: Int) {
+    view.text = gest.toString() + " Night"
 }
 
 @BindingAdapter("loadImageHotel")
