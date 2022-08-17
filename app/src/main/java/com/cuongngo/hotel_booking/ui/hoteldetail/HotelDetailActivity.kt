@@ -6,6 +6,7 @@ import com.cuongngo.hotel_booking.App
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.AppBaseActivityMVVM
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
+import com.cuongngo.hotel_booking.base.view.DialogUtils
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.ActivityHotelDetailBinding
 import com.cuongngo.hotel_booking.ext.WTF
@@ -71,13 +72,29 @@ class HotelDetailActivity : AppBaseActivityMVVM<ActivityHotelDetailBinding, Hote
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    if (it.data?.result_code == 1){
-                        binding.hotel = it.data.data
-                        hotelModel = it.data.data
-                        loadImage(binding.ivPoster, it.data.data?.images?.firstOrNull()?.medium.orEmpty())
-                        galleryAdapter.submitListGallery(it.data.data?.images.orEmpty())
-                    }else{
-                        showDialog("Chú ý", message = it.data?.result)
+
+                    when(it.data?.result_code){
+                        1 -> {
+                            binding.hotel = it.data.data
+                            hotelModel = it.data.data
+                            loadImage(binding.ivPoster, it.data.data?.images?.firstOrNull()?.medium.orEmpty())
+                            galleryAdapter.submitListGallery(it.data.data?.images.orEmpty())
+                        }
+                        300,301,302 -> {
+
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(this@HotelDetailActivity, LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
                     }
                 },
                 onError = {

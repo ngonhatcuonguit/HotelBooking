@@ -3,6 +3,7 @@ package com.cuongngo.hotel_booking.ui.auth
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -236,26 +237,42 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    if (it.data?.result_code == 1){
-                        with(binding){
-                            edtEmail.setText("${it.data.data?.email}")
-                            edtFullName.setText("${it.data.data?.name}")
-                            edtNickname.setText("${it.data.data?.nickname}")
-                            edtPhoneNumber.setText("${it.data.data?.phone}")
-                            tvDateOfBirth.text = it.data.data?.birthday
-                            when(it.data.data?.gender){
-                                1 -> {
-                                    tvGender.text = "Nam"
-                                }
-                                2 -> {
-                                    tvGender.text = "Nữ"
-                                }
-                                3 -> {
-                                    tvGender.text = "Khác"
+                    when(it.data?.result_code){
+                        1 -> {
+                            with(binding){
+                                edtEmail.setText("${it.data.data?.email}")
+                                edtFullName.setText("${it.data.data?.name}")
+                                edtNickname.setText("${it.data.data?.nickname}")
+                                edtPhoneNumber.setText("${it.data.data?.phone}")
+                                tvDateOfBirth.text = it.data.data?.birthday
+                                when(it.data.data?.gender){
+                                    1 -> {
+                                        tvGender.text = "Nam"
+                                    }
+                                    2 -> {
+                                        tvGender.text = "Nữ"
+                                    }
+                                    3 -> {
+                                        tvGender.text = "Khác"
+                                    }
                                 }
                             }
                         }
-                    }else showDialog(title ="Chú ý", message = it.data?.result)
+                        300,301,302 -> {
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
+                    }
                 },
                 onError = {
                     hideProgressDialog()
@@ -271,18 +288,33 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    if (it.data?.result_code == 1){
-                        showDialog(
-                            title = "Đăng kí thành công",
-                            message = "Bạn đã đăng kí tài khoản thành công, hãy đăng nhập để trải nghiệm Bolu ngay!",
-                            isCancelAble = false,
-                            onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
-                                override fun onClick(isPositiveClick: Boolean) {
-                                    finish()
-                                }
-                            } )
-                    }else {
-                        showDialog(title ="Chú ý", message = it.data?.result)
+                    when(it.data?.result_code){
+                        1 -> {
+                            showDialog(
+                                title = "Đăng kí thành công",
+                                message = "Bạn đã đăng kí tài khoản thành công, hãy đăng nhập để trải nghiệm Bolu ngay!",
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        finish()
+                                    }
+                                } )
+                        }
+                        300,301,302 -> {
+
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
                     }
                 },
                 onError = {
@@ -298,22 +330,36 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    if (it.data?.result_code == 1){
 
-                        AppPreferences.setNickName(it.data.data?.nickname.toString())
-                        AppPreferences.setEmail(it.data.data?.email.toString())
+                    when(it.data?.result_code){
+                        1 -> {
+                            AppPreferences.setNickName(it.data.data?.nickname.toString())
+                            AppPreferences.setEmail(it.data.data?.email.toString())
+                            showDialog(
+                                title = "Chú ý",
+                                message = "Bạn đã thay đổi thông tin thành công",
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        finish()
+                                    }
+                                } )
+                        }
+                        300,301,302 -> {
 
-                        showDialog(
-                            title = "Chú ý",
-                            message = "Bạn đã thay đổi thông tin thành công",
-                            isCancelAble = false,
-                            onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
-                                override fun onClick(isPositiveClick: Boolean) {
-                                    finish()
-                                }
-                            } )
-                    }else {
-                        showDialog(title ="Chú ý", message = it.data?.result)
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
                     }
                 },
                 onError = {

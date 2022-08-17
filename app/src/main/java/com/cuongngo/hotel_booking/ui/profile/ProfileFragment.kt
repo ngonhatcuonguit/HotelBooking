@@ -6,6 +6,7 @@ import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.EDIT_PROFILE
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.fragment.BaseFragment
 import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
+import com.cuongngo.hotel_booking.base.view.DialogUtils
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.FragmentProfileBinding
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
@@ -61,13 +62,28 @@ class ProfileFragment : BaseFragmentMVVM<FragmentProfileBinding, UserViewModel>(
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    if (it.data?.result_code == 1){
-                        AppPreferences.setNickName("")
-                        AppPreferences.setEmail("")
-                        AppPreferences.setUserAccessToken("")
-                        showDialog("Chú ý", message = "Bạn đã logout thành công")
-                    }else {
-                        showDialog("Chú ý", message = it.data?.result)
+                    when(it.data?.result_code){
+                        1 -> {
+                            AppPreferences.setNickName("")
+                            AppPreferences.setEmail("")
+                            AppPreferences.setUserAccessToken("")
+                            showDialog("Chú ý", message = "Bạn đã logout thành công")
+                        }
+                        300,301,302 -> {
+
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
                     }
                 },
                 onError = {
@@ -80,11 +96,26 @@ class ProfileFragment : BaseFragmentMVVM<FragmentProfileBinding, UserViewModel>(
             it.onResultReceived(
                 onLoading = { },
                 onSuccess = {
-                    if (it.data?.result_code == 1){
-                        binding.tvName.text = it.data.data?.nickname
-                        binding.email.text = it.data.data?.email
-                    }else {
-                        showDialog("Chú ý", message = it.data?.result)
+                    when(it.data?.result_code){
+                        1 -> {
+                            binding.tvName.text = it.data.data?.nickname
+                            binding.email.text = it.data.data?.email
+                        }
+                        300,301,302 -> {
+
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
                     }
                 },
                 onError = {

@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.AppBaseActivityMVVM
 import com.cuongngo.hotel_booking.base.activity.BaseActivity
+import com.cuongngo.hotel_booking.base.view.DialogUtils
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.hotel_booking.databinding.ActivityHomeIndexBinding
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.response.HotelModel
 import com.cuongngo.hotel_booking.services.network.onResultReceived
+import com.cuongngo.hotel_booking.ui.auth.LoginActivity
 import com.cuongngo.hotel_booking.ui.hoteldetail.HotelDetailActivity
 
 class HomeIndexActivity : AppBaseActivityMVVM<ActivityHomeIndexBinding, HomeViewModel>(), HotelAdapter.SelectedListener {
@@ -63,13 +65,28 @@ class HomeIndexActivity : AppBaseActivityMVVM<ActivityHomeIndexBinding, HomeView
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    if (it.data?.result_code == 1){
-                        if (!it.data?.cursors?.after.isNullOrEmpty()){
-                            viewModel.after = it.data?.cursors?.after.orEmpty()
+                    when(it.data?.result_code){
+                        1 -> {
+                            if (!it.data?.cursors?.after.isNullOrEmpty()){
+                                viewModel.after = it.data?.cursors?.after.orEmpty()
+                            }
+                            setupRcvHotel(it.data?.data?.hotels.orEmpty())
                         }
-                        setupRcvHotel(it.data?.data?.hotels.orEmpty())
-                    }else {
-                        showDialog("Warning", it.data?.result)
+                        300,301,302 -> {
+
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(this@HomeIndexActivity, LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
                     }
                 },
                 onError = {

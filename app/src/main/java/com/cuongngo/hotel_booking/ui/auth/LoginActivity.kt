@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.activity.AppBaseActivityMVVM
+import com.cuongngo.hotel_booking.base.view.DialogUtils
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.ActivityLoginBinding
 import com.cuongngo.hotel_booking.ext.WTF
@@ -108,16 +109,16 @@ class LoginActivity : AppBaseActivityMVVM<ActivityLoginBinding, UserViewModel>()
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    if (it.data?.result_code == 1){
-                        hideProgressDialog()
-
-                        AppPreferences.setUserAccessToken(it.data.data.access_token.toString())
-                        AppPreferences.setNickName(it.data.data.user?.name.toString())
-                        AppPreferences.setEmail(it.data.data.user?.email.toString())
-
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    }else {
-                        showDialog(title = "Chú ý", message = it.data?.result)
+                    when(it.data?.result_code){
+                        1 -> {
+                            AppPreferences.setUserAccessToken(it.data.data.access_token.toString())
+                            AppPreferences.setNickName(it.data.data.user?.name.toString())
+                            AppPreferences.setEmail(it.data.data.user?.email.toString())
+                            finish()
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
                     }
                 },
                 onError = {
