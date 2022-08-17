@@ -30,4 +30,8 @@ class HotelRemoteDataSource(private val apiService: HotelApi) : BaseRemoteDataSo
         apiService.booking(guest, check_in, check_out, hotel_id)
     }
 
+    suspend fun getListMyBooking() = getResult {
+        apiService.getListMyBooking()
+    }
+
 }

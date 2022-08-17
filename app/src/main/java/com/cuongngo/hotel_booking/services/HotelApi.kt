@@ -68,6 +68,10 @@ interface HotelApi {
         @Field("payment_id") payment_id: Int = 1
     ): Response<BaseModelResponse>
 
+
+    @GET("booking/my-booking")
+    suspend fun getListMyBooking() : Response<MyBookingResponse>
+
     companion object {
         operator fun invoke(): HotelApi {
             return ApiClientFactory.createService()

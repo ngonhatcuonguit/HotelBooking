@@ -3,10 +3,9 @@
     xmlns:aap="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
-            name="hotel"
-            type="com.cuongngo.hotel_booking.response.HotelModel" />
+            name="booking"
+            type="com.cuongngo.hotel_booking.response.BookingModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,6 +33,7 @@
                 android:layout_marginStart="11dp"
                 android:src="@drawable/background_item"
                 aap:carbon_cornerRadius="11dp"
+                loadImageHotel="@{booking.hotel}"
                 aap:layout_constraintDimensionRatio="1:1"
                 aap:layout_constraintStart_toStartOf="parent"
                 aap:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +46,7 @@
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{hotel.name}"
+                android:text="@{booking.hotel.name}"
                 android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold"
@@ -56,22 +56,27 @@
                 aap:layout_constraintTop_toTopOf="@id/iv_poster" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{hotel.location}"
+                showLocation="@{booking.hotel}"
                 android:textColor="#242424"
                 android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                aap:layout_constraintEnd_toEndOf="parent"
                 aap:layout_constraintBottom_toBottomOf="@id/iv_poster"
                 aap:layout_constraintStart_toStartOf="@id/tv_hotel_name"
                 aap:layout_constraintTop_toTopOf="@id/iv_poster" />
 
             <carbon.widget.TextView
-                android:layout_width="68dp"
+                android:layout_width="wrap_content"
                 android:layout_height="21dp"
                 android:layout_marginBottom="8dp"
                 android:background="#DBF8E6"
                 android:gravity="center"
-                android:text="Paid"
+                android:text=""
+                android:paddingHorizontal="6dp"
+                hotelPrice="@{booking.money_total}"
                 android:textColor="@color/color_primary"
                 android:textSize="11sp"
                 aap:carbon_cornerRadius="6dp"
@@ -128,7 +133,6 @@
                 aap:layout_constraintTop_toTopOf="@id/tv_cancel_booking"
                 aap:layout_constraintBottom_toBottomOf="@id/tv_cancel_booking"
                 aap:layout_constraintTop_toBottomOf="@id/view_space0" />
-
 
         </carbon.widget.ConstraintLayout>
 

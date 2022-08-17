@@ -2,11 +2,16 @@ package com.cuongngo.hotel_booking.ui.mybooking
 
 import android.graphics.Color
 import com.cuongngo.hotel_booking.R
-import com.cuongngo.hotel_booking.base.fragment.BaseFragment
+import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
+import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.databinding.FragmentMyBookingBinding
+import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.response.HotelModel
+import com.cuongngo.hotel_booking.services.network.onResultReceived
 
-class MyBookingFragment : BaseFragment<FragmentMyBookingBinding>() {
+class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingViewModel>() {
+
+    override val viewModel: MyBookingViewModel by kodeinViewModel()
 
     private lateinit var myBookingAdapter: MyBookingAdapter
     var listHotel = arrayListOf<HotelModel>()
@@ -15,6 +20,7 @@ class MyBookingFragment : BaseFragment<FragmentMyBookingBinding>() {
     override fun inflateLayout() = R.layout.fragment_my_booking
 
     override fun setUp() {
+        viewModel.getListMyBooking()
         setupRcvHotel()
 
         with(binding){
@@ -31,14 +37,28 @@ class MyBookingFragment : BaseFragment<FragmentMyBookingBinding>() {
     }
 
     override fun setUpObserver() {
-
+        observeLiveDataChanged(viewModel.listMyBooking){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    if (it.data?.result_code == 1){
+                        myBookingAdapter.submitListBooking(it.data.data?.bookings.orEmpty())
+                    }
+                },
+                onError = {
+                    hideProgressDialog()
+                }
+            )
+        }
     }
 
     private fun setupRcvHotel(){
         myBookingAdapter = MyBookingAdapter(
             arrayListOf()
         )
-        myBookingAdapter.submitListHotel(listHotel.toList())
         binding.rcvListMyBooking.adapter = myBookingAdapter
 
     }

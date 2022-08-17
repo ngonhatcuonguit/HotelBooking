@@ -6,10 +6,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.databinding.ItemMyBookingBinding
+import com.cuongngo.hotel_booking.response.BookingModel
 import com.cuongngo.hotel_booking.response.HotelModel
 
 class MyBookingAdapter(
-    listMyBooking: ArrayList<HotelModel>
+    listMyBooking: ArrayList<BookingModel>
 ) : RecyclerView.Adapter<MyBookingAdapter.MyBookingViewHolder>() {
 
     var listMyBooking = listMyBooking
@@ -32,8 +33,8 @@ class MyBookingAdapter(
     override fun onBindViewHolder(holder: MyBookingViewHolder, position: Int) {
         val item = listMyBooking[position]
         val binding = holder.itemMyBookingBinding
+        binding.booking = item
 
-        binding.hotel = item
 
     }
 
@@ -41,7 +42,7 @@ class MyBookingAdapter(
         return listMyBooking.size
     }
 
-    fun submitListHotel(listMyBooking: List<HotelModel>) {
+    fun submitListBooking(listMyBooking: List<BookingModel>) {
         this.listMyBooking.addAll(listMyBooking)
         notifyDataSetChanged()
     }

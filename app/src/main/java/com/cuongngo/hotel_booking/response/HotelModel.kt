@@ -11,7 +11,6 @@ data class HotelResponse(
 data class HotelModel(
     val id: Int?,
     var name: String?,
-    var location: String?,
     var price: Long?,
     var description: String?,
     var address: String?,

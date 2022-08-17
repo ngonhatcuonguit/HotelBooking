@@ -11,7 +11,7 @@ package com.cuongngo.hotel_booking.response
 data class BaseModelResponse(
     val result: String?,
     val result_code: Int?,
-    val success: Boolean?,
+    val success: Boolean?
 ): BaseModel()
 
 data class Cursor(val before:String? , val after:String?): BaseModel()
