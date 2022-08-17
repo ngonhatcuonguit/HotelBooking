@@ -70,7 +70,9 @@ interface HotelApi {
 
 
     @GET("booking/my-booking")
-    suspend fun getListMyBooking() : Response<MyBookingResponse>
+    suspend fun getListMyBooking(
+        @Query("after") after: String? = null
+    ) : Response<MyBookingResponse>
 
     companion object {
         operator fun invoke(): HotelApi {

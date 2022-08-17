@@ -108,4 +108,7 @@ dependencies {
 
     implementation "com.googlecode.libphonenumber:libphonenumber:8.12.5"
 
+    // Rx3 Binding
+    implementation "com.jakewharton.rxbinding3:rxbinding:3.1.0"
+
 }

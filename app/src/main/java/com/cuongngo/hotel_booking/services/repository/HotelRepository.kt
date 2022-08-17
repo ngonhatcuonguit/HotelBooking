@@ -6,6 +6,7 @@ import com.cuongngo.hotel_booking.response.HotelResponse
 import com.cuongngo.hotel_booking.response.MyBookingResponse
 import com.cuongngo.hotel_booking.services.network.BaseResult
 import com.cuongngo.hotel_booking.services.remote.HotelRemoteDataSource
+import retrofit2.http.Query
 
 class HotelRepository(private val hotelRemoteDataSource: HotelRemoteDataSource) {
 
@@ -34,8 +35,10 @@ class HotelRepository(private val hotelRemoteDataSource: HotelRemoteDataSource) 
         return hotelRemoteDataSource.booking(guest, check_in, check_out, hotel_id)
     }
 
-    suspend fun getListMyBooking(): BaseResult<MyBookingResponse>{
-        return hotelRemoteDataSource.getListMyBooking()
+    suspend fun getListMyBooking(
+        after: String? = null
+    ): BaseResult<MyBookingResponse>{
+        return hotelRemoteDataSource.getListMyBooking(after)
     }
 
 }

@@ -19,6 +19,10 @@ import com.cuongngo.hotel_booking.ui.categories.CategoryAdapter
 import com.cuongngo.hotel_booking.ui.home.HomeViewModel
 import com.cuongngo.hotel_booking.ui.home.HotelAdapter
 import com.cuongngo.hotel_booking.ui.hoteldetail.HotelDetailActivity
+import com.jakewharton.rxbinding3.widget.textChangeEvents
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding,HomeViewModel>(), HotelAdapter.SelectedListener, CategoryAdapter.SelectedListener {
 
@@ -28,6 +32,9 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding,HomeViewModel>(), 
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     var categorySelected: CategoryModel? = null
+    private var compositeDisposable: Disposable? = null
+    private var currentKeyword: String? = null
+
     var listCategory = arrayOf(
         CategoryModel(
             1,
@@ -66,6 +73,7 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding,HomeViewModel>(), 
                 viewModel.loadMoreListHotel()
             }
         }
+        setupFeatureSearch()
     }
 
     private fun setupRcvHotel(listHotel: List<HotelModel>){
@@ -77,6 +85,25 @@ class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding,HomeViewModel>(), 
         hotelAdapter.submitListHotel(listHotel.toList())
         binding.rcvListHotel.adapter = hotelAdapter
 
+    }
+
+
+    private fun setupFeatureSearch() {
+        compositeDisposable =
+            binding.edtSearch.textChangeEvents().skip(1).debounce(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                    currentKeyword = it.text.toString()
+                    if (currentKeyword != viewModel.name) {
+                        viewModel.after = null
+                        viewModel.name = currentKeyword
+                        if (viewModel.name.isNullOrEmpty()) {
+//                            searchViewModel.getPopularMovie()
+                        } else {
+                            viewModel.getListHotel()
+                            hideKeyboard()
+                        }
+                    }
+                }
     }
 
     private fun setupRcvCategories(){

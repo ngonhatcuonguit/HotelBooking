@@ -16,14 +16,22 @@ class MyBookingViewModel(private val hotelRepository: HotelRepository): BaseView
     private var _listMyBooking = MutableLiveData<BaseResult<MyBookingResponse>>()
     val listMyBooking : LiveData<BaseResult<MyBookingResponse>> = _listMyBooking
 
+    var after: String? = null
+
     fun getListMyBooking(){
         _listMyBooking.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 _listMyBooking.postValue(
-                    hotelRepository.getListMyBooking()
+                    hotelRepository.getListMyBooking(after)
                 )
             }
+        }
+    }
+
+    fun loadMoreListBooking(){
+        after?.let {
+            getListMyBooking()
         }
     }
 

@@ -1,9 +1,12 @@
 package com.cuongngo.hotel_booking.ui.mybooking
 
 import android.graphics.Color
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
 import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
+import com.cuongngo.hotel_booking.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.hotel_booking.databinding.FragmentMyBookingBinding
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.response.HotelModel
@@ -16,6 +19,7 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
     private lateinit var myBookingAdapter: MyBookingAdapter
     var listHotel = arrayListOf<HotelModel>()
     private var filter = 0
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun inflateLayout() = R.layout.fragment_my_booking
 
@@ -32,6 +36,12 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
             }
             tvCancel.setOnClickListener {
                 handleChooseFilter(2)
+            }
+        }
+        val layoutManager = LinearLayoutManager(requireContext())
+        scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                viewModel.loadMoreListBooking()
             }
         }
     }

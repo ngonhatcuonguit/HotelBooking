@@ -2,6 +2,7 @@ package com.cuongngo.hotel_booking.services.remote
 
 import com.cuongngo.hotel_booking.services.HotelApi
 import com.cuongngo.hotel_booking.services.network.BaseRemoteDataSource
+import retrofit2.http.Query
 
 class HotelRemoteDataSource(private val apiService: HotelApi) : BaseRemoteDataSource() {
 
@@ -30,8 +31,10 @@ class HotelRemoteDataSource(private val apiService: HotelApi) : BaseRemoteDataSo
         apiService.booking(guest, check_in, check_out, hotel_id)
     }
 
-    suspend fun getListMyBooking() = getResult {
-        apiService.getListMyBooking()
+    suspend fun getListMyBooking(
+        after: String? = null
+    ) = getResult {
+        apiService.getListMyBooking(after)
     }
 
 }
