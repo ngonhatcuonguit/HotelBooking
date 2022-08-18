@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="color_primary">#1AB65C</color>
+    <color name="text_color_validate_red">#FF0000</color>
 </resources>

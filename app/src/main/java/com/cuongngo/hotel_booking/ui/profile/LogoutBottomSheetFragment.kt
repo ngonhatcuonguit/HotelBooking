@@ -10,13 +10,18 @@ import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.databinding.FragmentBottomSheetLogoutBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class LogoutBottomSheetFragment : BottomSheetDialogFragment() {
+class LogoutBottomSheetFragment(private var logoutListener: LogoutListener) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentBottomSheetLogoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.BottomSheetDialogTheme)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setUp()
     }
 
     override fun onCreateView(
@@ -34,7 +39,17 @@ class LogoutBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun setUp(){
+        binding.btnYes.setOnClickListener{
+            logoutListener.onLogoutSelected()
+            dismiss()
+        }
+        binding.btnCancel.setOnClickListener {
+            dismiss()
+        }
+    }
 
+    interface LogoutListener {
+        fun onLogoutSelected()
     }
 
     companion object {

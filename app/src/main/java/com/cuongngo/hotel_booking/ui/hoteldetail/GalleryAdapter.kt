@@ -8,9 +8,10 @@ import com.cuongngo.hotel_booking.App
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.databinding.ItemGalleryBinding
 import com.cuongngo.hotel_booking.response.GalleryModel
+import com.cuongngo.hotel_booking.response.Image
 
 class GalleryAdapter(
-    listGallery: ArrayList<GalleryModel>
+    listGallery: ArrayList<Image>
 ): RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
 
     private var listGallery = listGallery
@@ -34,6 +35,8 @@ class GalleryAdapter(
         val binding = holder.itemGalleryBinding
         val item = listGallery[position]
 
+        binding.imageHotel = item
+
         val paddingStart = App.getResources().getDimensionPixelOffset(R.dimen._20dp)
         val paddingEnd = App.getResources().getDimensionPixelOffset(R.dimen._10dp)
 
@@ -42,7 +45,7 @@ class GalleryAdapter(
         }
     }
 
-    fun submitListGallery(listGallery: List<GalleryModel> ){
+    fun submitListGallery(listGallery: List<Image> ){
         this.listGallery.addAll(listGallery)
         notifyDataSetChanged()
     }

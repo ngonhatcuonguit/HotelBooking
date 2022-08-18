@@ -17,10 +17,11 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.auth.LoginActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -39,7 +40,7 @@
             tools:ignore="LockedOrientationActivity" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.auth.LoginActivity"
             android:exported="true"
             tools:ignore="LockedOrientationActivity" />
 
@@ -51,6 +52,17 @@
         <activity
             android:name=".ui.booking.BookingActivity"
             android:exported="true"
+            android:theme="@style/MaterialTheme"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.bookingdetail.ViewTicketActivity"
+            android:exported="true"
+            android:theme="@style/MaterialTheme"
+            tools:ignore="LockedOrientationActivity" />
+
+        <activity android:name=".ui.MainActivity"
+            android:exported="true"
+            android:theme="@style/MaterialTheme"
             tools:ignore="LockedOrientationActivity" />
 
     </application>

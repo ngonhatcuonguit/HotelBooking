@@ -1,5 +1,6 @@
 package com.cuongngo.hotel_booking.services.network.invoker
 
+import com.cuongngo.hotel_booking.utils.Constants.Companion.BASE_API_URL
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
@@ -12,10 +13,7 @@ class ApiClientFactory {
     companion object{
         inline fun <reified T> createService(networkConnectionInterceptor: NetworkConnectionInterceptor? = null): T{
             val okkHttpClient = OkHttpClient.Builder()
-                .addInterceptor(BaseInterceptor().apply {
-//                    addParam("language" to Constants.ENGLISH)
-//                    addParam("api_key" to Constants.API_KEY)
-                })
+                .addInterceptor(BaseInterceptor())
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
@@ -33,7 +31,7 @@ class ApiClientFactory {
 
             return Retrofit.Builder()
                 .client(okkHttpClient.build())
-                .baseUrl("")
+                .baseUrl(BASE_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(T::class.java)

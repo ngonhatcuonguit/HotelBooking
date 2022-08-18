@@ -8,6 +8,8 @@ import com.cuongngo.hotel_booking.databinding.DialogSuccessBinding
 
 class SuccessDialogFragment : BaseDialog<DialogSuccessBinding>() {
 
+//    private var success: (() -> Unit)? = null
+
     override fun inflateLayout() = R.layout.dialog_success
 
     override fun provideLoading(): ProgressDialog? {
@@ -22,12 +24,22 @@ class SuccessDialogFragment : BaseDialog<DialogSuccessBinding>() {
     override fun setUp() {
         binding.btnCancel.setOnClickListener {
             dismiss()
+            activity?.finish()
+        }
+        binding.btnViewTicket.setOnClickListener {
+            dismiss()
+            activity?.finish()
         }
     }
 
     override fun setUpObserver() {
 
     }
+
+//    fun onSuccess(success: (() -> Unit)?): SuccessDialogFragment {
+//        this.success = success
+//        return this
+//    }
 
     companion object {
         val TAG = SuccessDialogFragment::class.java.simpleName

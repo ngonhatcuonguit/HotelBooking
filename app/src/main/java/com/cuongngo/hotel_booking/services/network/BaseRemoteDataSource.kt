@@ -2,7 +2,7 @@ package com.cuongngo.hotel_booking.services.network
 
 import android.util.Log
 import com.cuongngo.hotel_booking.response.ErrorResponse
-import com.cuongngo.cinemax.utils.Constants
+import com.cuongngo.hotel_booking.utils.Constants
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody

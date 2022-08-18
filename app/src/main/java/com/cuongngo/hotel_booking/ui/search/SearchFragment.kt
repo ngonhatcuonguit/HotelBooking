@@ -1,133 +1,65 @@
 package com.cuongngo.hotel_booking.ui.search
 
 import android.content.Intent
+import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.fragment.BaseFragment
+import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
+import com.cuongngo.hotel_booking.base.view.DialogUtils
+import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
+import com.cuongngo.hotel_booking.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.hotel_booking.databinding.FragmentSearchBinding
+import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.response.CategoryModel
 import com.cuongngo.hotel_booking.response.HotelModel
+import com.cuongngo.hotel_booking.services.network.onResultReceived
+import com.cuongngo.hotel_booking.ui.auth.LoginActivity
 import com.cuongngo.hotel_booking.ui.categories.CategoryAdapter
+import com.cuongngo.hotel_booking.ui.home.HomeViewModel
 import com.cuongngo.hotel_booking.ui.home.HotelAdapter
 import com.cuongngo.hotel_booking.ui.hoteldetail.HotelDetailActivity
+import com.jakewharton.rxbinding3.widget.textChangeEvents
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
-class SearchFragment : BaseFragment<FragmentSearchBinding>(), HotelAdapter.SelectedListener, CategoryAdapter.SelectedListener {
+class SearchFragment : BaseFragmentMVVM<FragmentSearchBinding,HomeViewModel>(), HotelAdapter.SelectedListener, CategoryAdapter.SelectedListener {
+
+    override val viewModel: HomeViewModel by kodeinViewModel()
 
     private lateinit var hotelAdapter: HotelAdapter
     private lateinit var categoryAdapter: CategoryAdapter
-    var listHotel = arrayOf(
-        HotelModel(
-            1,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            2,
-            4.9F,
-            "Nevada Hotel",
-            "HCM, Viet Nam",
-            150,
-            "https://www.traveloka.com/vi-vn/hotel/vietnam/z-hotel-sai-gon-9000000209252",
-            8000
-        ),
-        HotelModel(
-            3,
-            4.0F,
-            "Oriental Hotel",
-            "Lagos, Nigeria",
-            205,
-            "",
-            4000
-        ),
-        HotelModel(
-            4,
-            3.8F,
-            "Federal Palace Hotel",
-            "Ha Noi, Viet Nam",
-            300,
-            "https://www.booking.com/hotel/vn/yes-da-nang.vi.html",
-            9000
-        ),
-        HotelModel(
-            5,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            6,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            7,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            8,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            9,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            10,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-    )
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     var categorySelected: CategoryModel? = null
+    private var compositeDisposable: Disposable? = null
+    private var currentKeyword: String? = null
+
     var listCategory = arrayOf(
         CategoryModel(
             1,
             "All Hotel",
+            "empty ",
             false
         ),
         CategoryModel(
             1,
             "Recommended",
+            "is_recommand",
             false
         ),
         CategoryModel(
             1,
             "Popular",
+            "is_popular ",
             false
         ),
         CategoryModel(
             1,
             "Trending",
+            "is_trending",
             false
         )
     )
@@ -135,11 +67,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), HotelAdapter.Selec
     override fun inflateLayout() = R.layout.fragment_search
 
     override fun setUp() {
+        viewModel.getListHotel()
         setupRcvCategories()
-        setupRcvHotel()
+        val layoutManager = LinearLayoutManager(requireContext())
+        scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                viewModel.loadMoreListHotel()
+            }
+        }
+        setupFeatureSearch()
     }
 
-    private fun setupRcvHotel(){
+    private fun setupRcvHotel(listHotel: List<HotelModel>){
         hotelAdapter = HotelAdapter(
             arrayListOf(),
             this
@@ -148,6 +87,25 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), HotelAdapter.Selec
         hotelAdapter.submitListHotel(listHotel.toList())
         binding.rcvListHotel.adapter = hotelAdapter
 
+    }
+
+
+    private fun setupFeatureSearch() {
+        compositeDisposable =
+            binding.edtSearch.textChangeEvents().skip(1).debounce(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                    currentKeyword = it.text.toString()
+                    if (currentKeyword != viewModel.name) {
+                        viewModel.after = null
+                        viewModel.name = currentKeyword
+                        if (viewModel.name.isNullOrEmpty()) {
+//                            searchViewModel.getPopularMovie()
+                        } else {
+                            viewModel.getListHotel()
+                            hideKeyboard()
+                        }
+                    }
+                }
     }
 
     private fun setupRcvCategories(){
@@ -169,7 +127,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), HotelAdapter.Selec
     }
 
     override fun onHotelSelectedListener(hotelModel: HotelModel) {
-        startActivity(Intent(context, HotelDetailActivity::class.java))
+        startActivity(HotelDetailActivity.newIntent(requireContext(),hotelModel.id))
     }
 
 
@@ -189,9 +147,58 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), HotelAdapter.Selec
         listCategory[index] = categoryModel
         categoryAdapter.notifyItemChanged(index)
         categoryAdapter.notifyItemChanged(oldIndex)
+        if (categoryModel.param != viewModel.filtering){
+            viewModel.filtering = categoryModel.param
+            viewModel.getListHotel()
+        }else {
+            viewModel.filtering = categoryModel.param
+        }
     }
 
-    override fun setUpObserver() {}
+    override fun setUpObserver() {
+
+        observeLiveDataChanged(viewModel.categoryFilter){
+        }
+
+        observeLiveDataChanged(viewModel.listHotel){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    when(it.data?.result_code){
+                        1 -> {
+                            if (!it.data.cursors?.after.isNullOrEmpty()){
+                                viewModel.after = it.data.cursors?.after.orEmpty()
+                            }
+                            setupRcvHotel(it.data.data?.hotels.orEmpty())
+                        }
+                        300,301,302 -> {
+
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
+                    }
+                },
+                onError = {
+                    hideProgressDialog()
+                    showDialog("Warning", it.data?.result)
+                }
+            )
+        }
+
+    }
 
     companion object {
         val TAG = SearchFragment::class.java.simpleName

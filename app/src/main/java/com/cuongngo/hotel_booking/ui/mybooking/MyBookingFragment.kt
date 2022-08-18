@@ -1,111 +1,37 @@
 package com.cuongngo.hotel_booking.ui.mybooking
 
+import android.content.Intent
 import android.graphics.Color
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
-import com.cuongngo.hotel_booking.base.fragment.BaseFragment
+import com.cuongngo.hotel_booking.base.fragment.BaseFragmentMVVM
+import com.cuongngo.hotel_booking.base.view.DialogUtils
+import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
+import com.cuongngo.hotel_booking.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.hotel_booking.databinding.FragmentMyBookingBinding
+import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.response.HotelModel
+import com.cuongngo.hotel_booking.services.network.onResultReceived
+import com.cuongngo.hotel_booking.ui.auth.LoginActivity
+import com.cuongngo.hotel_booking.ui.bookingdetail.ViewTicketActivity
+import com.cuongngo.hotel_booking.ui.profile.LogoutBottomSheetFragment
 
-class MyBookingFragment : BaseFragment<FragmentMyBookingBinding>() {
+class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingViewModel>(),
+    CancelBookingBottomSheetFragment.CancelBooking, MyBookingAdapter.Listener {
+
+    override val viewModel: MyBookingViewModel by kodeinViewModel()
 
     private lateinit var myBookingAdapter: MyBookingAdapter
-    var listHotel = arrayOf(
-        HotelModel(
-            1,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            2,
-            4.9F,
-            "Nevada Hotel",
-            "HCM, Viet Nam",
-            150,
-            "https://www.traveloka.com/vi-vn/hotel/vietnam/z-hotel-sai-gon-9000000209252",
-            8000
-        ),
-        HotelModel(
-            3,
-            4.0F,
-            "Oriental Hotel",
-            "Lagos, Nigeria",
-            205,
-            "",
-            4000
-        ),
-        HotelModel(
-            4,
-            3.8F,
-            "Federal Palace Hotel",
-            "Ha Noi, Viet Nam",
-            300,
-            "https://www.booking.com/hotel/vn/yes-da-nang.vi.html",
-            9000
-        ),
-        HotelModel(
-            5,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            6,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            7,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            8,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            9,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-        HotelModel(
-            10,
-            5.0F,
-            "Intercontinental Hotel",
-            "Lagos, Nigeria",
-            200,
-            "https://www.agoda.com/vi-vn/l-hotel/hotel/khon-kaen-th.html",
-            4000
-        ),
-    )
+    var listHotel = arrayListOf<HotelModel>()
     private var filter = 0
+    private var itemId : Int? = null
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun inflateLayout() = R.layout.fragment_my_booking
 
     override fun setUp() {
+        viewModel.getListMyBooking()
         setupRcvHotel()
 
         with(binding){
@@ -119,17 +45,102 @@ class MyBookingFragment : BaseFragment<FragmentMyBookingBinding>() {
                 handleChooseFilter(2)
             }
         }
+        val layoutManager = LinearLayoutManager(requireContext())
+        scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                viewModel.loadMoreListBooking()
+            }
+        }
+    }
+
+
+    override fun onCancelSelected() {
+        viewModel.cancelBooking(itemId ?: return)
+    }
+
+    override fun onCancel(booking_id: Int) {
+        itemId = booking_id
+        CancelBookingBottomSheetFragment(this).show(childFragmentManager, CancelBookingBottomSheetFragment.TAG)
+    }
+
+    override fun onViewTicket(booking_id: Int) {
+        startActivity(ViewTicketActivity.newIntent(requireContext(),booking_id ))
     }
 
     override fun setUpObserver() {
 
+        observeLiveDataChanged(viewModel.cancelBooking){
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    when (it.data?.result_code) {
+                        1 -> {
+                            viewModel.getListMyBooking()
+                        }
+                        300,301,302 -> {
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
+                    }
+                },
+                onError = {
+                    hideProgressDialog()
+                }
+            )
+        }
+
+        observeLiveDataChanged(viewModel.listMyBooking) {
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    when (it.data?.result_code) {
+                        1 -> {
+                            myBookingAdapter.submitListBooking(it.data.data?.bookings.orEmpty())
+                        }
+                        300,301,302 -> {
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
+                    }
+                },
+                onError = {
+                    hideProgressDialog()
+                }
+            )
+        }
     }
 
     private fun setupRcvHotel(){
         myBookingAdapter = MyBookingAdapter(
-            arrayListOf()
+            arrayListOf(),
+            this
         )
-        myBookingAdapter.submitListHotel(listHotel.toList())
         binding.rcvListMyBooking.adapter = myBookingAdapter
 
     }

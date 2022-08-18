@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="bookingSetup"
+            type="com.cuongngo.hotel_booking.response.SetUpBeforeBookingModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -86,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_20dp"
-                        android:text="December 16, 2024"
+                        android:text="@{bookingSetup.check_in}"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -109,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_20dp"
-                        android:text="December 16, 2024"
+                        android:text="@{bookingSetup.check_out}"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -133,7 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_20dp"
-                        android:text="3"
+                        android:text="@{bookingSetup.guest.toString()}"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -163,17 +169,17 @@
                         android:layout_marginStart="@dimen/_18dp"
                         android:layout_marginTop="22dp"
                         android:text="5 Nights"
+                        showGuest="@{bookingSetup.guest}"
                         android:textColor="#515151"
                         android:textSize="17sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/night_number"
+                        android:id="@+id/total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_20dp"
-                        android:text="$760.00"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -197,7 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_20dp"
-                        android:text="$760.00"
+                        android:text="0 đ"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:textStyle="bold"
