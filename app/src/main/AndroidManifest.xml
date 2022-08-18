@@ -54,6 +54,11 @@
             android:exported="true"
             android:theme="@style/MaterialTheme"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.bookingdetail.ViewTicketActivity"
+            android:exported="true"
+            android:theme="@style/MaterialTheme"
+            tools:ignore="LockedOrientationActivity" />
 
     </application>
 

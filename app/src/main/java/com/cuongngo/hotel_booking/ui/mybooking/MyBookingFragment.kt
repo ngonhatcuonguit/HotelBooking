@@ -14,14 +14,18 @@ import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.response.HotelModel
 import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.auth.LoginActivity
+import com.cuongngo.hotel_booking.ui.bookingdetail.ViewTicketActivity
+import com.cuongngo.hotel_booking.ui.profile.LogoutBottomSheetFragment
 
-class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingViewModel>() {
+class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingViewModel>(),
+    CancelBookingBottomSheetFragment.CancelBooking, MyBookingAdapter.Listener {
 
     override val viewModel: MyBookingViewModel by kodeinViewModel()
 
     private lateinit var myBookingAdapter: MyBookingAdapter
     var listHotel = arrayListOf<HotelModel>()
     private var filter = 0
+    private var itemId : Int? = null
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun inflateLayout() = R.layout.fragment_my_booking
@@ -49,15 +53,63 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
         }
     }
 
+
+    override fun onCancelSelected() {
+        viewModel.cancelBooking(itemId ?: return)
+    }
+
+    override fun onCancel(booking_id: Int) {
+        itemId = booking_id
+        CancelBookingBottomSheetFragment(this).show(childFragmentManager, CancelBookingBottomSheetFragment.TAG)
+    }
+
+    override fun onViewTicket(booking_id: Int) {
+        startActivity(ViewTicketActivity.newIntent(requireContext(),booking_id ))
+    }
+
     override fun setUpObserver() {
-        observeLiveDataChanged(viewModel.listMyBooking){
+
+        observeLiveDataChanged(viewModel.cancelBooking){
             it.onResultReceived(
                 onLoading = {
                     showProgressDialog()
                 },
                 onSuccess = {
                     hideProgressDialog()
-                    when(it.data?.result_code){
+                    when (it.data?.result_code) {
+                        1 -> {
+                            viewModel.getListMyBooking()
+                        }
+                        300,301,302 -> {
+                            showDialog(
+                                title = "Chú ý",
+                                message = it.data.result,
+                                isCancelAble = false,
+                                onDialogButtonClick = object : DialogUtils.DialogOnClickListener {
+                                    override fun onClick(isPositiveClick: Boolean) {
+                                        startActivity(Intent(requireContext(), LoginActivity::class.java))
+                                    }
+                                } )
+                        }
+                        else -> {
+                            showDialog(title = "Chú ý", message = it.data?.result)
+                        }
+                    }
+                },
+                onError = {
+                    hideProgressDialog()
+                }
+            )
+        }
+
+        observeLiveDataChanged(viewModel.listMyBooking) {
+            it.onResultReceived(
+                onLoading = {
+                    showProgressDialog()
+                },
+                onSuccess = {
+                    hideProgressDialog()
+                    when (it.data?.result_code) {
                         1 -> {
                             myBookingAdapter.submitListBooking(it.data.data?.bookings.orEmpty())
                         }
@@ -86,7 +138,8 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
 
     private fun setupRcvHotel(){
         myBookingAdapter = MyBookingAdapter(
-            arrayListOf()
+            arrayListOf(),
+            this
         )
         binding.rcvListMyBooking.adapter = myBookingAdapter
 

@@ -68,11 +68,20 @@ interface HotelApi {
         @Field("payment_id") payment_id: Int = 1
     ): Response<BaseModelResponse>
 
+    @PUT("booking/cancel/{booking_id}")
+    suspend fun cancelBooking(
+        @Path("booking_id") booking_id: Int
+    ): Response<BaseModelResponse>
 
     @GET("booking/my-booking")
     suspend fun getListMyBooking(
         @Query("after") after: String? = null
     ) : Response<MyBookingResponse>
+
+    @GET("booking/detail/{booking_id}")
+    suspend fun getBookingDetail(
+        @Path("booking_id") booking_id: Int
+    ) : Response<BookingDetailResponse>
 
     companion object {
         operator fun invoke(): HotelApi {

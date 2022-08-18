@@ -114,6 +114,7 @@ class LoginActivity : AppBaseActivityMVVM<ActivityLoginBinding, UserViewModel>()
                             AppPreferences.setUserAccessToken(it.data.data.access_token.toString())
                             AppPreferences.setNickName(it.data.data.user?.name.toString())
                             AppPreferences.setEmail(it.data.data.user?.email.toString())
+                            AppPreferences.setPhone(it.data.data.user?.phone.toString())
                             finish()
                         }
                         else -> {

@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.databinding.ItemMyBookingBinding
 import com.cuongngo.hotel_booking.response.BookingModel
-import com.cuongngo.hotel_booking.response.HotelModel
 
 class MyBookingAdapter(
-    listMyBooking: ArrayList<BookingModel>
+    listMyBooking: ArrayList<BookingModel>,
+    private var listener: Listener
 ) : RecyclerView.Adapter<MyBookingAdapter.MyBookingViewHolder>() {
 
     var listMyBooking = listMyBooking
@@ -35,11 +35,23 @@ class MyBookingAdapter(
         val binding = holder.itemMyBookingBinding
         binding.booking = item
 
+        binding.tvCancelBooking.setOnClickListener {
+            listener.onCancel(item.id ?:return@setOnClickListener)
+        }
+
+        binding.tvViewTicket.setOnClickListener {
+            listener.onViewTicket(item.id ?: return@setOnClickListener)
+        }
 
     }
 
     override fun getItemCount(): Int {
         return listMyBooking.size
+    }
+
+    interface Listener {
+        fun onCancel(booking_id: Int)
+        fun onViewTicket(booking_id: Int)
     }
 
     fun submitListBooking(listMyBooking: List<BookingModel>) {
