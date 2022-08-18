@@ -66,7 +66,7 @@ interface HotelApi {
         @Field("check_out") check_out: String,
         @Field("hotel_id") hotel_id: Int,
         @Field("payment_id") payment_id: Int = 1
-    ): Response<BaseModelResponse>
+    ): Response<BookingSuccessResponse>
 
     @PUT("booking/cancel/{booking_id}")
     suspend fun cancelBooking(
@@ -75,7 +75,8 @@ interface HotelApi {
 
     @GET("booking/my-booking")
     suspend fun getListMyBooking(
-        @Query("after") after: String? = null
+        @Query("after") after: String? = null,
+        @Query("status") status: Int? = null
     ) : Response<MyBookingResponse>
 
     @GET("booking/detail/{booking_id}")

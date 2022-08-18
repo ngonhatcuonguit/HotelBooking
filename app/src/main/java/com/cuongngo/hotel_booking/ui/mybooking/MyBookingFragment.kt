@@ -11,6 +11,7 @@ import com.cuongngo.hotel_booking.base.viewmodel.kodeinViewModel
 import com.cuongngo.hotel_booking.common.collection.EndlessRecyclerViewScrollListener
 import com.cuongngo.hotel_booking.databinding.FragmentMyBookingBinding
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
+import com.cuongngo.hotel_booking.response.BookingModel
 import com.cuongngo.hotel_booking.response.HotelModel
 import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.auth.LoginActivity
@@ -23,7 +24,6 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
     override val viewModel: MyBookingViewModel by kodeinViewModel()
 
     private lateinit var myBookingAdapter: MyBookingAdapter
-    var listHotel = arrayListOf<HotelModel>()
     private var filter = 0
     private var itemId : Int? = null
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
@@ -32,17 +32,16 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
 
     override fun setUp() {
         viewModel.getListMyBooking()
-        setupRcvHotel()
 
         with(binding){
             tvOngoing.setOnClickListener {
-                handleChooseFilter(0)
-            }
-            tvComplete.setOnClickListener {
                 handleChooseFilter(1)
             }
-            tvCancel.setOnClickListener {
+            tvComplete.setOnClickListener {
                 handleChooseFilter(2)
+            }
+            tvCancel.setOnClickListener {
+                handleChooseFilter(3)
             }
         }
         val layoutManager = LinearLayoutManager(requireContext())
@@ -52,7 +51,6 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
             }
         }
     }
-
 
     override fun onCancelSelected() {
         viewModel.cancelBooking(itemId ?: return)
@@ -68,7 +66,6 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
     }
 
     override fun setUpObserver() {
-
         observeLiveDataChanged(viewModel.cancelBooking){
             it.onResultReceived(
                 onLoading = {
@@ -111,7 +108,7 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
                     hideProgressDialog()
                     when (it.data?.result_code) {
                         1 -> {
-                            myBookingAdapter.submitListBooking(it.data.data?.bookings.orEmpty())
+                            setupRcvHotel(it.data.data?.bookings.orEmpty())
                         }
                         300,301,302 -> {
                             showDialog(
@@ -136,20 +133,21 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
         }
     }
 
-    private fun setupRcvHotel(){
+    private fun setupRcvHotel(listMyBooking: List<BookingModel>){
         myBookingAdapter = MyBookingAdapter(
             arrayListOf(),
             this
         )
+        myBookingAdapter.submitListBooking(listMyBooking)
         binding.rcvListMyBooking.adapter = myBookingAdapter
-
     }
 
     private fun handleChooseFilter(value: Int){
         if (value != filter){
             filter = value
+            viewModel.filter = value
             when (filter){
-                0 -> {
+                1 -> {
                     binding.tvOngoing.setBackgroundColor(Color.parseColor("#1AB65C"))
                     binding.tvOngoing.setTextColor(Color.parseColor("#FFFFFF"))
 
@@ -159,8 +157,9 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
                     binding.tvCancel.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     binding.tvCancel.setTextColor(Color.parseColor("#1AB65C"))
 
+                    viewModel.getListMyBooking()
                 }
-                1 -> {
+                2 -> {
                     binding.tvOngoing.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     binding.tvOngoing.setTextColor(Color.parseColor("#1AB65C"))
 
@@ -169,9 +168,10 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
 
                     binding.tvCancel.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     binding.tvCancel.setTextColor(Color.parseColor("#1AB65C"))
+                    viewModel.getListMyBooking()
                 }
 
-                2 -> {
+                3 -> {
                     binding.tvOngoing.setBackgroundColor(Color.parseColor("#FFFFFF"))
                     binding.tvOngoing.setTextColor(Color.parseColor("#1AB65C"))
 
@@ -180,6 +180,8 @@ class MyBookingFragment : BaseFragmentMVVM<FragmentMyBookingBinding, MyBookingVi
 
                     binding.tvCancel.setBackgroundColor(Color.parseColor("#1AB65C"))
                     binding.tvCancel.setTextColor(Color.parseColor("#FFFFFF"))
+
+                    viewModel.getListMyBooking()
                 }
             }
         }

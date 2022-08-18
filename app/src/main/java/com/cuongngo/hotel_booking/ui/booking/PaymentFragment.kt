@@ -63,7 +63,7 @@ class PaymentFragment : BaseFragmentMVVM<FragmentPaymentBinding, BookingViewMode
                     hideProgressDialog()
                     when (it.data?.result_code) {
                         1 -> {
-                            SuccessDialogFragment().show(
+                            SuccessDialogFragment(it.data.data?.id).show(
                                 childFragmentManager,
                                 SuccessDialogFragment.TAG
                             )

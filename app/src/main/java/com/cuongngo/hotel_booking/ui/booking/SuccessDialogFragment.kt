@@ -5,8 +5,13 @@ import com.cuongngo.hotel_booking.R
 import com.cuongngo.hotel_booking.base.dialog.BaseDialog
 import com.cuongngo.hotel_booking.base.view.ProgressDialog
 import com.cuongngo.hotel_booking.databinding.DialogSuccessBinding
+import com.cuongngo.hotel_booking.ui.bookingdetail.ViewTicketActivity
 
-class SuccessDialogFragment : BaseDialog<DialogSuccessBinding>() {
+class SuccessDialogFragment(
+    booking_id : Int?
+) : BaseDialog<DialogSuccessBinding>() {
+
+    private val bookingID = booking_id
 
 //    private var success: (() -> Unit)? = null
 
@@ -28,6 +33,7 @@ class SuccessDialogFragment : BaseDialog<DialogSuccessBinding>() {
         }
         binding.btnViewTicket.setOnClickListener {
             dismiss()
+            startActivity(ViewTicketActivity.newIntent(requireContext(), bookingID))
             activity?.finish()
         }
     }
@@ -43,11 +49,6 @@ class SuccessDialogFragment : BaseDialog<DialogSuccessBinding>() {
 
     companion object {
         val TAG = SuccessDialogFragment::class.java.simpleName
-
-        @JvmStatic
-        fun newInstance(): SuccessDialogFragment {
-            return SuccessDialogFragment()
-        }
     }
 
 }

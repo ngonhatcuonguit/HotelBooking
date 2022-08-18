@@ -28,7 +28,7 @@ class HotelRepository(private val hotelRemoteDataSource: HotelRemoteDataSource) 
         check_in: String,
         check_out: String,
         hotel_id: Int
-    ): BaseResult<BaseModelResponse> {
+    ): BaseResult<BookingSuccessResponse> {
         return hotelRemoteDataSource.booking(guest, check_in, check_out, hotel_id)
     }
 
@@ -45,9 +45,10 @@ class HotelRepository(private val hotelRemoteDataSource: HotelRemoteDataSource) 
     }
 
     suspend fun getListMyBooking(
-        after: String? = null
+        after: String? = null,
+        filter: Int? = null
     ): BaseResult<MyBookingResponse>{
-        return hotelRemoteDataSource.getListMyBooking(after)
+        return hotelRemoteDataSource.getListMyBooking(after, filter)
     }
 
 }

@@ -21,13 +21,14 @@ class MyBookingViewModel(private val hotelRepository: HotelRepository): BaseView
     val cancelBooking: LiveData<BaseResult<BaseModelResponse>> = _cancelBooking
 
     var after: String? = null
+    var filter: Int? = null
 
     fun getListMyBooking() {
         _listMyBooking.value = BaseResult.loading(null)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _listMyBooking.postValue(
-                    hotelRepository.getListMyBooking(after)
+                    hotelRepository.getListMyBooking(after, filter)
                 )
             }
         }

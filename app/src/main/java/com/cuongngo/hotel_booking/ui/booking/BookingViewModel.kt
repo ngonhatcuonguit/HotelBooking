@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.cuongngo.hotel_booking.base.viewmodel.BaseViewModel
 import com.cuongngo.hotel_booking.response.BaseModelResponse
+import com.cuongngo.hotel_booking.response.BookingSuccessModel
+import com.cuongngo.hotel_booking.response.BookingSuccessResponse
 import com.cuongngo.hotel_booking.response.SetUpBeforeBookingModel
 import com.cuongngo.hotel_booking.services.network.BaseResult
 import com.cuongngo.hotel_booking.services.repository.HotelRepository
@@ -14,8 +16,8 @@ import kotlinx.coroutines.withContext
 
 class BookingViewModel(private val hotelRepository: HotelRepository): BaseViewModel() {
 
-    private var _booking = MutableLiveData<BaseResult<BaseModelResponse>>()
-    val booking: LiveData<BaseResult<BaseModelResponse>> = _booking
+    private var _booking = MutableLiveData<BaseResult<BookingSuccessResponse>>()
+    val booking: LiveData<BaseResult<BookingSuccessResponse>> = _booking
 
     var setUpBeforeBookingModel = SetUpBeforeBookingModel()
 
