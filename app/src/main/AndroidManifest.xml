@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -56,6 +56,11 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.bookingdetail.ViewTicketActivity"
+            android:exported="true"
+            android:theme="@style/MaterialTheme"
+            tools:ignore="LockedOrientationActivity" />
+
+        <activity android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/MaterialTheme"
             tools:ignore="LockedOrientationActivity" />

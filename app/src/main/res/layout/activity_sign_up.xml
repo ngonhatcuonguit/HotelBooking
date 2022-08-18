@@ -399,10 +399,11 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_flag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginStart="@dimen/_20dp"
-                        app:srcCompat="@drawable/nigeria_flag"
+                        app:srcCompat="@drawable/flag_of_vietnam"
+                        android:scaleType="fitCenter"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
