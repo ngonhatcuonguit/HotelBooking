@@ -33,6 +33,16 @@ class UserRepository(private val userRemoteDataSource: UserRemoteDataSource) {
         )
     }
 
+    suspend fun changePassword(
+        email: String,
+        password: String,
+        password_confirmation: String
+    ): BaseResult<DataGetUser>{
+        return userRemoteDataSource.changePassword(
+            email, password, password_confirmation
+        )
+    }
+
     suspend fun login(
         email: String,
         password: String

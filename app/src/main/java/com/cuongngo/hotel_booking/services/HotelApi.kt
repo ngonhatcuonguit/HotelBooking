@@ -32,6 +32,14 @@ interface HotelApi {
     ): Response<DataGetUser>
 
     @FormUrlEncoded
+    @POST("auth/forgot-password")
+    suspend fun changePassword(
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("password_confirmation") password_confirmation: String
+    ): Response<DataGetUser>
+
+    @FormUrlEncoded
     @POST("auth/login")
     suspend fun login(
         @Field("email") email: String,

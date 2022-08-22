@@ -65,6 +65,11 @@
             android:theme="@style/MaterialTheme"
             tools:ignore="LockedOrientationActivity" />
 
+        <activity android:name=".ui.auth.ForgotPasswordActivity"
+            android:exported="true"
+            android:theme="@style/MaterialTheme"
+            tools:ignore="LockedOrientationActivity" />
+
     </application>
 
 </manifest>

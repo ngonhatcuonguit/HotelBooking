@@ -32,6 +32,14 @@ class UserRemoteDataSource(private val apiService: HotelApi) : BaseRemoteDataSou
         )
     }
 
+    suspend fun changePassword(
+        email: String,
+        password: String,
+        password_confirmation: String
+    ) = getResult {
+        apiService.changePassword(email, password, password_confirmation)
+    }
+
     suspend fun login(
         email: String,
         password: String

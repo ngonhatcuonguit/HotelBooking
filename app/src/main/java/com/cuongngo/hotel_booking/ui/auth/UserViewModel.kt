@@ -28,6 +28,9 @@ class UserViewModel(private val userRepository: UserRepository) : BaseViewModel(
     private var _getUser = MutableLiveData<BaseResult<DataGetUser>>()
     val getUser: LiveData<BaseResult<DataGetUser>> = _getUser
 
+    private var _changePass = MutableLiveData<BaseResult<DataGetUser>>()
+    val changePass: LiveData<BaseResult<DataGetUser>> = _changePass
+
     fun signUp(
         name: String,
         email: String,
@@ -76,6 +79,23 @@ class UserViewModel(private val userRepository: UserRepository) : BaseViewModel(
                         phone,
                         birthday,
                         gender
+                    )
+                )
+            }
+        }
+    }
+
+    fun changePassword(
+        email: String,
+        password: String,
+        password_confirmation: String
+    ){
+        _changePass.value = BaseResult.loading(null)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                _changePass.postValue(
+                    userRepository.changePassword(
+                        email, password, password_confirmation
                     )
                 )
             }

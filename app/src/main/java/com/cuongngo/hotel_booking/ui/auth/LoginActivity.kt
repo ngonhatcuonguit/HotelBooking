@@ -55,6 +55,10 @@ class LoginActivity : AppBaseActivityMVVM<ActivityLoginBinding, UserViewModel>()
                 })
             }
 
+            tvForgot.setOnClickListener {
+                startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java))
+            }
+
             edtPassword.addTextChangedListener {
                 when {
                     (it.toString().isNullOrEmpty()) -> {
