@@ -11,13 +11,27 @@ fun Calendar.getDateString(): String {
 
 fun convertDateTimeForParamApi(dateString:String):String{
     val OLD_FORMAT = "dd/MM/yyyy"
-    val NEW_FORMAT = "yyyy-MM-dd"
+    val NEW_FORMAT = "dd-MM-yyyy"
     try {
         val sdf = SimpleDateFormat(OLD_FORMAT, Locale.ROOT)
         val d = sdf.parse(dateString)
         sdf.applyPattern(NEW_FORMAT)
         return sdf.format(d)
     }catch (e:Throwable){
+        e.printStackTrace()
+        return dateString
+    }
+}
+
+fun convertDateTimeForParamApi2(dateString: String): String {
+    val OLD_FORMAT = "yyyy-MM-đ"
+    val NEW_FORMAT = "dd-MM-yyyy"
+    try {
+        val sdf = SimpleDateFormat(OLD_FORMAT, Locale.ROOT)
+        val d = sdf.parse(dateString)
+        sdf.applyPattern(NEW_FORMAT)
+        return sdf.format(d)
+    } catch (e: Throwable) {
         e.printStackTrace()
         return dateString
     }

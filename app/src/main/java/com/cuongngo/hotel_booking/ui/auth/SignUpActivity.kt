@@ -1,6 +1,7 @@
 package com.cuongngo.hotel_booking.ui.auth
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -23,6 +24,7 @@ import com.cuongngo.hotel_booking.ext.WTF
 import com.cuongngo.hotel_booking.ext.observeLiveDataChanged
 import com.cuongngo.hotel_booking.local.AppPreferences
 import com.cuongngo.hotel_booking.services.network.onResultReceived
+import com.cuongngo.hotel_booking.ui.profile.ProfileFragment
 import com.cuongngo.hotel_booking.utils.*
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.ACTION
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.EDIT_PROFILE
@@ -70,7 +72,7 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                             password_confirmation = edtPasswordConfirm.text.toString(),
                             nickname = edtNickname.text.toString(),
                             phone = edtPhoneNumber.text.toString(),
-                            birthday = birthDay.toString(),
+                            birthday = convertDateTimeForParamApi2(birthDay.toString()),
                             gender = gender.toString()
                         )
                     }else {
@@ -79,7 +81,7 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                             email = edtEmail.text.toString(),
                             nickname = edtNickname.text.toString(),
                             phone = edtPhoneNumber.text.toString(),
-                            birthday = birthDay.toString(),
+                            birthday = convertDateTimeForParamApi2(birthDay.toString()),
                             gender = gender.toString()
                         )
                     }
@@ -245,6 +247,8 @@ class SignUpActivity : AppBaseActivityMVVM<ActivitySignUpBinding, UserViewModel>
                                 edtNickname.setText("${it.data.data?.nickname}")
                                 edtPhoneNumber.setText("${it.data.data?.phone}")
                                 tvDateOfBirth.text = it.data.data?.birthday
+                                birthDay = it.data.data?.birthday
+                                gender = it.data.data?.gender.toString()
                                 when(it.data.data?.gender){
                                     1 -> {
                                         tvGender.text = "Nam"

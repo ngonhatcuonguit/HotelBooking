@@ -1,5 +1,7 @@
 package com.cuongngo.hotel_booking.ui.profile
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.ACTION
 import com.cuongngo.hotel_booking.utils.Constants.Key.Companion.EDIT_PROFILE
