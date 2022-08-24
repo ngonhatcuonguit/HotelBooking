@@ -13,6 +13,7 @@ import com.cuongngo.hotel_booking.response.SetUpBeforeBookingModel
 import com.cuongngo.hotel_booking.services.network.onResultReceived
 import com.cuongngo.hotel_booking.ui.auth.LoginActivity
 import com.cuongngo.hotel_booking.utils.convertDateTimeForParamApi
+import com.cuongngo.hotel_booking.utils.convertDateTimeForParamApi3
 import com.cuongngo.hotel_booking.utils.formatToPrice
 
 class PaymentFragment : BaseFragmentMVVM<FragmentPaymentBinding, BookingViewModel>() {
@@ -46,8 +47,8 @@ class PaymentFragment : BaseFragmentMVVM<FragmentPaymentBinding, BookingViewMode
         binding.btnContinue.setOnClickListener {
             viewModel.booking(
                 viewModel.setUpBeforeBookingModel.guest ?: return@setOnClickListener,
-                convertDateTimeForParamApi(viewModel.setUpBeforeBookingModel.check_in.orEmpty()),
-                convertDateTimeForParamApi(viewModel.setUpBeforeBookingModel.check_out.orEmpty()),
+                convertDateTimeForParamApi3(viewModel.setUpBeforeBookingModel.check_in.orEmpty()),
+                convertDateTimeForParamApi3(viewModel.setUpBeforeBookingModel.check_out.orEmpty()),
                 viewModel.setUpBeforeBookingModel.hotel_id ?: return@setOnClickListener,
             )
         }
